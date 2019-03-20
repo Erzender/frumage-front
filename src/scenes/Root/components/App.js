@@ -9,7 +9,7 @@ import { Button } from 'reactstrap';
 import root from '../duck/reducer';
 import persist from '../duck/persist';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import LoginForm from './LoginForm';
+import LoginForm from '../../Login/components/LoginForm';
 
 const persistConfig = {
   key: 'persist',
