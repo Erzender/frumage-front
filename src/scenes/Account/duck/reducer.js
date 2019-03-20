@@ -1,42 +1,45 @@
-import userConstants from './types';
+import {
+  LOGIN_REQUEST,
+  REGISTER_SUCCESS,
+  REGISTER_FAILURE,
+  REGISTER_REQUEST,
+  LOGIN_INPUT_CHANGE,
+} from './types';
 
 const initialState = {
   isLoading: false,
   registered: false,
   isLogged: true,
+  name: '',
+  password: '',
 };
 
 export default (state = initialState, action) => {
   switch (action.type) {
-    case userConstants.LOGIN_REQUEST:
+    case LOGIN_INPUT_CHANGE:
+      return {
+        ...state,
+        name: action.input === 'name' ? action.value : state.name,
+        password: action.input === 'password' ? action.value : state.password,
+      };
+    case LOGIN_REQUEST:
       return {
         isLoading: true,
       };
-    case userConstants.REGISTER_SUCCESS:
+    case REGISTER_SUCCESS:
       console.log('login success');
       return {
         isLoading: false,
         isLogged: true,
       };
-    case userConstants.REGISTER_FAILURE:
+    case REGISTER_FAILURE:
       console.log('register fail');
       return {
         isLoading: false,
       };
-    case userConstants.REGISTER_REQUEST:
+    case REGISTER_REQUEST:
       return {
         isLoading: true,
-      };
-    case userConstants.REGISTER_SUCCESS:
-      console.log('register success');
-      return {
-        isLoading: false,
-        registered: true,
-      };
-    case userConstants.REGISTER_FAILURE:
-      console.log('register fail');
-      return {
-        isLoading: false,
       };
     default:
       return state;

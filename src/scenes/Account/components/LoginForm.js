@@ -1,55 +1,79 @@
 import React from 'react';
-import { connect } from 'react-redux';
 import {
-  Container, Col, Form,
-  FormGroup, Label, Input,
-  Button,
+  Container, Form, FormGroup, Label, Input, Button, Jumbotron,
 } from 'reactstrap';
-import userActions from '../duck/actions';
-// import './LoginForm.css';
-// import userActions from '../redux/actions/user.actions';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
+import background from '../../../assets/cheese.jpg';
+import { login, changeInput } from '../duck/actions';
 
-const LoginForm = ({login}) => (
-  <Container className="LoginForm">
-    <h2>Sign In</h2>
-    <Form className="form" onSubmit={e => e.preventDefault() || login(e.target.name.value, e.target.password.value)}>
-      <Col>
-        <FormGroup>
-          <Label>Email</Label>
-          <Input
-            type="text"
-            name="name"
-            id="name"
-            placeholder="pseudo"
-            value="test"
-          />
-        </FormGroup>
-      </Col>
-      <Col>
-        <FormGroup>
-          <Label for="examplePassword">Password</Label>
-          <Input
-            type="password"
-            name="password"
-            id="password"
-            placeholder="********"
-            value="testtest"
-          />
-        </FormGroup>
-      </Col>
-      <Button type="submit">Submit</Button>
-    </Form>
-  </Container>
-);
+const styles = {
+  container: {
+    display: 'flex',
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundImage: `url(${background})`,
+    backgroundSize: 'cover',
+    top: 0,
+    left: 0,
+    minHeight: '100%',
+    minWidth: '100%',
+    position: 'fixed',
+  },
+};
+
+const LoginForm = ({
+  name, password, loginButton, changeName, changePassword,
+}) => {
+  const loginButtonPress = () => loginButton(name, password);
+  return (
+    <Container style={styles.container}>
+      <Jumbotron>
+        <Form>
+          <FormGroup>
+            <Label>Email</Label>
+            <Input
+              type="email"
+              placeholder="myemail@email.com"
+              value={name}
+              onChange={changeName}
+            />
+            <Label for="examplePassword">Password</Label>
+            <Input
+              type="password"
+              placeholder="********"
+              value={password}
+              onChange={changePassword}
+            />
+          </FormGroup>
+          <Button onClick={loginButtonPress}>Submit</Button>
+        </Form>
+      </Jumbotron>
+    </Container>
+  );
+};
+
+LoginForm.propTypes = {
+  loginButton: PropTypes.func.isRequired,
+  changeName: PropTypes.func.isRequired,
+  changePassword: PropTypes.func.isRequired,
+  name: PropTypes.string.isRequired,
+  password: PropTypes.string.isRequired,
+};
 
 const mapDispatchToProps = dispatch => ({
-  // login: ({ name, password }) => dispatch(userActions.login(name, password)),
-  login: ( name, password ) => {
-    console.log('mapDispatchToProps', name, password);
-    return dispatch(userActions.login(name, password));
-  },
+  loginButton: (name, password) => dispatch(login(name, password)),
+  changeName: event => dispatch(changeInput('name', event.target.value)),
+  changePassword: event => dispatch(changeInput('password', event.target.value)),
 });
 
-const mapStateToProps = ({ login }) => ({ login });
+const mapStateToProps = state => ({
+  name: state.account.name,
+  password: state.account.password,
+});
 
-export default connect(mapStateToProps, mapDispatchToProps)(LoginForm);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(LoginForm);
