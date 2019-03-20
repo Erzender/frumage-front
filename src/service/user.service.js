@@ -1,7 +1,3 @@
-import { Buffer } from 'buffer';
-// import fetch from 'node-fetch';
-// console.log("fetch", fetch)
-
 const apiUrl = 'https://frumage-preprod.herokuapp.com/api';
 
 function login(name, password) {
