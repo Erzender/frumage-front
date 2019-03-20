@@ -1,10 +1,10 @@
 const initialState = {};
 
-const reducer = (state = initialState, action) => {
+const persist = (state = initialState, action) => {
   switch (action.type) {
     default:
       return state;
   }
 };
 
-export default reducer;
+export default persist;
