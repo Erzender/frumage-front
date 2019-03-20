@@ -23,7 +23,7 @@ const store = createStore(rootReducer, applyMiddleware(thunkMiddleware));
 const persistor = persistStore(store);
 
 const App = () => (
-  <div style={{ flex: 1 }}>
+  <div style={{ display: 'flex', flex: 1 }}>
     <LoginForm />
     {/* <Button>loul</Button> */}
   </div>
