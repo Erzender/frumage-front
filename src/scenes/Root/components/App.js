@@ -9,6 +9,7 @@ import { Button } from 'reactstrap';
 import root from '../duck/reducer';
 import persist from '../duck/persist';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import LoginForm from './LoginForm';
 
 const persistConfig = {
   key: 'persist',
@@ -23,7 +24,8 @@ const persistor = persistStore(store);
 
 const App = () => (
   <div style={{ flex: 1 }}>
-    <Button>loul</Button>
+    <LoginForm />
+    {/* <Button>loul</Button> */}
   </div>
 );
 
