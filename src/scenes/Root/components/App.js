@@ -5,11 +5,11 @@ import thunkMiddleware from 'redux-thunk';
 import { persistStore, persistReducer } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
 import { PersistGate } from 'redux-persist/integration/react';
-import { Button } from 'reactstrap';
+// import { Button } from 'reactstrap';
 import root from '../duck/reducer';
 import persist from '../duck/persist';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import LoginForm from '../../Login/components/LoginForm';
+import LoginForm from '../../Account/components/LoginForm';
 
 const persistConfig = {
   key: 'persist',

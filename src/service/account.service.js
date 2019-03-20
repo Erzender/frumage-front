@@ -1,7 +1,7 @@
 const apiUrl = 'https://frumage-preprod.herokuapp.com/api';
 
 function login(name, password) {
-  console.log('name y password', name, password);
+  console.log(`name y password <${name}> <${password}>        `);
   const options = {
     method: 'POST',
     headers: {
@@ -12,7 +12,7 @@ function login(name, password) {
       password,
     }),
   };
-
+  console.log(options);                                                                                                                                                                                                                                                               
   return fetch(`${apiUrl}/login`, options).then(
     (jsonData) => {
       console.log('jsonData', jsonData);
