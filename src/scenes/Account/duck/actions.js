@@ -1,4 +1,4 @@
-import userServices from '../../../service/account.service';
+import service from '../../../service/account.service';
 
 import {
   LOGIN_INPUT_CHANGE,
@@ -10,40 +10,31 @@ import {
   REGISTER_FAILURE,
 } from './types';
 
-export const login = (name, password) => {
-  console.log(name, password);
-  const request = payload => ({ type: LOGIN_REQUEST, payload });
-  const success = payload => ({ type: LOGIN_SUCCESS, payload });
-  const failure = error => ({ type: LOGIN_FAILURE, error });
+export const loginRequest = payload => ({ type: LOGIN_REQUEST, payload });
+export const loginSuccess = payload => ({ type: LOGIN_SUCCESS, payload });
+export const loginFailure = error => ({ type: LOGIN_FAILURE, error });
+export const registerRequest = payload => ({ type: REGISTER_REQUEST, payload });
+export const registerSuccess = payload => ({ type: REGISTER_SUCCESS, payload });
+export const registerFailure = error => ({ type: REGISTER_FAILURE, error });
 
-  return (dispatch) => {
-    dispatch(request());
-    userServices
-      .login(name, password)
-      .then(payload => dispatch(success(payload)), error => dispatch(failure(error)));
-  };
+export const login = (name, password) => async (dispatch) => {
+  dispatch(loginRequest());
+  try {
+    const ret = await service.login(name, password);
+    dispatch(loginSuccess(ret));
+  } catch (err) {
+    dispatch(loginFailure(err));
+  }
 };
 
-export const register = (user, password) => {
-  console.log('action/register', user);
-  return (dispatch) => {
-    dispatch({
-      type: REGISTER_REQUEST,
-    });
-
-    userServices.register(user, password).then(
-      (payload) => {
-        dispatch({
-          type: REGISTER_SUCCESS,
-          payload,
-        });
-      },
-      error => dispatch({
-        type: REGISTER_FAILURE,
-        error,
-      }),
-    );
-  };
+export const register = (name, password) => async (dispatch) => {
+  dispatch(registerRequest());
+  try {
+    const ret = await service.register(name, password);
+    dispatch(registerSuccess(ret));
+  } catch (err) {
+    dispatch(registerFailure(err));
+  }
 };
 
 export const changeInput = (input, value) => ({

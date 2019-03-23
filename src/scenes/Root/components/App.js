@@ -8,6 +8,7 @@ import { persistStore, persistReducer } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
 import { PersistGate } from 'redux-persist/integration/react';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import { withNamespaces } from 'react-i18next';
 import LoginForm from '../../Account/components/LoginForm';
 
 import root from '../duck/reducer';
@@ -35,11 +36,11 @@ const store = createStore(
 
 const persistor = persistStore(store);
 
-const App = () => (
+const App = withNamespaces()(() => (
   <div style={{ display: 'flex', flex: 1 }}>
     <LoginForm />
   </div>
-);
+));
 
 export default () => (
   <Provider store={store}>

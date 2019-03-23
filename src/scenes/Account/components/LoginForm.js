@@ -4,6 +4,8 @@ import {
 } from 'reactstrap';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import { withNamespaces } from 'react-i18next';
+
 import background from '../../../assets/cheese.jpg';
 import { login, changeInput } from '../duck/actions';
 
@@ -24,23 +26,20 @@ const styles = {
 };
 
 const LoginForm = ({
-  name, password, loginButton, changeName, changePassword,
+  t, name, password, loginButton, changeName, changePassword,
 }) => {
   const loginButtonPress = () => loginButton(name, password);
   return (
     <Container style={styles.container}>
       <Jumbotron>
+        <h2>{t('login.Log in')}</h2>
         <FormGroup>
-          <Label>Username</Label>
+          <Label>{t('login.Username')}</Label>
           <Input value={name} onChange={changeName} />
-          <Label for="examplePassword">Password</Label>
-          <Input
-            type="password"
-            value={password}
-            onChange={changePassword}
-          />
+          <Label for="examplePassword">{t('login.Password')}</Label>
+          <Input type="password" value={password} onChange={changePassword} />
         </FormGroup>
-        <Button onClick={loginButtonPress}>Submit</Button>
+        <Button onClick={loginButtonPress}>{t('login.Ok')}</Button>
       </Jumbotron>
     </Container>
   );
@@ -52,6 +51,7 @@ LoginForm.propTypes = {
   changePassword: PropTypes.func.isRequired,
   name: PropTypes.string.isRequired,
   password: PropTypes.string.isRequired,
+  t: PropTypes.func.isRequired,
 };
 
 const mapDispatchToProps = dispatch => ({
@@ -68,4 +68,4 @@ const mapStateToProps = state => ({
 export default connect(
   mapStateToProps,
   mapDispatchToProps,
-)(LoginForm);
+)(withNamespaces()(LoginForm));
