@@ -3,6 +3,7 @@ import {
   Container, FormGroup, Label, Input, Button, Jumbotron,
 } from 'reactstrap';
 import { connect } from 'react-redux';
+import { compose } from 'redux';
 import PropTypes from 'prop-types';
 import { withNamespaces } from 'react-i18next';
 
@@ -65,7 +66,10 @@ const mapStateToProps = state => ({
   password: state.account.password,
 });
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(withNamespaces()(LoginForm));
+export default compose(
+  connect(
+    mapStateToProps,
+    mapDispatchToProps,
+  ),
+  withNamespaces(),
+)(LoginForm);
