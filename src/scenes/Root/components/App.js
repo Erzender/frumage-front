@@ -1,6 +1,8 @@
 import React from 'react';
 import { Provider } from 'react-redux';
-import { createStore, applyMiddleware, combineReducers } from 'redux';
+import {
+  createStore, applyMiddleware, combineReducers, compose,
+} from 'redux';
 import thunkMiddleware from 'redux-thunk';
 import { persistStore, persistReducer } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
@@ -20,7 +22,17 @@ const persistConfig = {
 const persistedReducer = persistReducer(persistConfig, persist);
 
 const rootReducer = combineReducers({ root, persistedReducer, account });
-const store = createStore(rootReducer, applyMiddleware(thunkMiddleware));
+
+/* eslint-disable no-underscore-dangle */
+const store = createStore(
+  rootReducer,
+  compose(
+    applyMiddleware(thunkMiddleware),
+    window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__(),
+  ),
+);
+/* eslint-enable */
+
 const persistor = persistStore(store);
 
 const App = () => (

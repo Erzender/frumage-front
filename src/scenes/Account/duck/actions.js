@@ -11,7 +11,7 @@ import {
 } from './types';
 
 export const login = (name, password) => {
-  console.log('in action login', name, password);
+  console.log(name, password);
   const request = payload => ({ type: LOGIN_REQUEST, payload });
   const success = payload => ({ type: LOGIN_SUCCESS, payload });
   const failure = error => ({ type: LOGIN_FAILURE, error });

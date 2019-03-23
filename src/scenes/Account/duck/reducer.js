@@ -24,21 +24,25 @@ export default (state = initialState, action) => {
       };
     case LOGIN_REQUEST:
       return {
+        ...state,
         isLoading: true,
       };
     case REGISTER_SUCCESS:
       console.log('login success');
       return {
+        ...state,
         isLoading: false,
         isLogged: true,
       };
     case REGISTER_FAILURE:
       console.log('register fail');
       return {
+        ...state,
         isLoading: false,
       };
     case REGISTER_REQUEST:
       return {
+        ...state,
         isLoading: true,
       };
     default:

@@ -1,6 +1,6 @@
 import React from 'react';
 import {
-  Container, Form, FormGroup, Label, Input, Button, Jumbotron,
+  Container, FormGroup, Label, Input, Button, Jumbotron,
 } from 'reactstrap';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
@@ -30,25 +30,17 @@ const LoginForm = ({
   return (
     <Container style={styles.container}>
       <Jumbotron>
-        <Form>
-          <FormGroup>
-            <Label>Email</Label>
-            <Input
-              type="email"
-              placeholder="myemail@email.com"
-              value={name}
-              onChange={changeName}
-            />
-            <Label for="examplePassword">Password</Label>
-            <Input
-              type="password"
-              placeholder="********"
-              value={password}
-              onChange={changePassword}
-            />
-          </FormGroup>
-          <Button onClick={loginButtonPress}>Submit</Button>
-        </Form>
+        <FormGroup>
+          <Label>Username</Label>
+          <Input value={name} onChange={changeName} />
+          <Label for="examplePassword">Password</Label>
+          <Input
+            type="password"
+            value={password}
+            onChange={changePassword}
+          />
+        </FormGroup>
+        <Button onClick={loginButtonPress}>Submit</Button>
       </Jumbotron>
     </Container>
   );
