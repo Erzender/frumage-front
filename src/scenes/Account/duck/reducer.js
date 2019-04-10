@@ -28,14 +28,12 @@ export default (state = initialState, action) => {
         isLoading: true,
       };
     case REGISTER_SUCCESS:
-      console.log('login success');
       return {
         ...state,
         isLoading: false,
         isLogged: true,
       };
     case REGISTER_FAILURE:
-      console.log('register fail');
       return {
         ...state,
         isLoading: false,
