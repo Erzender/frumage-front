@@ -11,9 +11,8 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import { withNamespaces } from 'react-i18next';
 import LoginForm from '../../Account/components/LoginForm';
 
-import root from '../duck/reducer';
-import persist from '../duck/persist';
-import account from '../../Account/duck/reducer';
+import { root, persist } from '../duck';
+import { account } from '../../Account/duck';
 
 const persistConfig = {
   key: 'persist',
@@ -25,13 +24,15 @@ const persistedReducer = persistReducer(persistConfig, persist);
 const rootReducer = combineReducers({ root, persistedReducer, account });
 
 /* eslint-disable no-underscore-dangle */
-const store = createStore(
-  rootReducer,
-  compose(
+
+const composed = window.__REDUX_DEVTOOLS_EXTENSION__
+  ? compose(
     applyMiddleware(thunkMiddleware),
     window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__(),
-  ),
-);
+  )
+  : compose(applyMiddleware(thunkMiddleware));
+
+const store = createStore(rootReducer, composed);
 /* eslint-enable */
 
 const persistor = persistStore(store);

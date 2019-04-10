@@ -8,7 +8,7 @@ import PropTypes from 'prop-types';
 import { withNamespaces } from 'react-i18next';
 
 import background from '../../../assets/cheese.jpg';
-import { login, changeInput } from '../duck/actions';
+import { login, loginInputChange } from '../duck';
 
 const styles = {
   container: {
@@ -57,8 +57,8 @@ LoginForm.propTypes = {
 
 const mapDispatchToProps = dispatch => ({
   loginButton: (name, password) => dispatch(login(name, password)),
-  changeName: event => dispatch(changeInput('name', event.target.value)),
-  changePassword: event => dispatch(changeInput('password', event.target.value)),
+  changeName: event => dispatch(loginInputChange('name', event.target.value)),
+  changePassword: event => dispatch(loginInputChange('password', event.target.value)),
 });
 
 const mapStateToProps = state => ({
