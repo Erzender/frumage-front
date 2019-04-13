@@ -6,6 +6,7 @@ import { connect } from 'react-redux';
 import { compose } from 'redux';
 import PropTypes from 'prop-types';
 import { withNamespaces } from 'react-i18next';
+import { Link } from 'react-router-dom';
 
 import background from '../../../assets/cheese.jpg';
 import { login, loginInputChange } from '../duck';
@@ -40,7 +41,19 @@ const LoginForm = ({
           <Label for="examplePassword">{t('login.Password')}</Label>
           <Input type="password" value={password} onChange={changePassword} />
         </FormGroup>
-        <Button onClick={loginButtonPress}>{t('login.Ok')}</Button>
+        <Button color="primary" className="btn-primary col-12" onClick={loginButtonPress}>
+          {t('login.Ok')}
+        </Button>
+        <Link to="/register">
+          <Button
+            style={{ marginTop: 5 }}
+            color="default"
+            className="col-12"
+            onClick={loginButtonPress}
+          >
+            {t('login.New Account')}
+          </Button>
+        </Link>
       </Jumbotron>
     </Container>
   );

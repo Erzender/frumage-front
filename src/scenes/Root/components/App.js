@@ -9,8 +9,10 @@ import storage from 'redux-persist/lib/storage';
 import { PersistGate } from 'redux-persist/integration/react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { withNamespaces } from 'react-i18next';
-import LoginForm from '../../Account/components/LoginForm';
+import { BrowserRouter as Router, Route } from 'react-router-dom';
 
+import LoginForm from '../../Account/components/LoginForm';
+import RegisterForm from '../../Account/components/RegisterForm';
 import { root, persist } from '../duck';
 import { account } from '../../Account/duck';
 
@@ -39,7 +41,12 @@ const persistor = persistStore(store);
 
 const App = withNamespaces()(() => (
   <div style={{ display: 'flex', flex: 1 }}>
-    <LoginForm />
+    <Router>
+      <div>
+        <Route exact path="/" component={LoginForm} />
+        <Route path="/register" component={RegisterForm} />
+      </div>
+    </Router>
   </div>
 ));
 
