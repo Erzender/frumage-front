@@ -40,9 +40,13 @@ const store = createStore(rootReducer, composed);
 const persistor = persistStore(store);
 
 const App = withNamespaces()(() => (
-  <div style={{ display: 'flex', flex: 1 }}>
+  <div
+    style={{
+      display: 'flex', flex: 1, position: 'absolute', top: 0, left: 0, right: 0, bottom: 0,
+    }}
+  >
     <Router>
-      <div>
+      <div style={{ display: 'flex', flex: 1 }}>
         <Route exact path="/" component={LoginForm} />
         <Route path="/register" component={RegisterForm} />
       </div>

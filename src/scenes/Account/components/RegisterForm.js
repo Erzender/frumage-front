@@ -1,5 +1,7 @@
 import React from 'react';
-import { Container } from 'reactstrap';
+import {
+  Container, Label, Input, FormGroup,
+} from 'reactstrap';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import PropTypes from 'prop-types';
@@ -14,8 +16,13 @@ const styles = {
 
 const RegisterForm = ({ t }) => (
   <Container style={styles.container}>
-    register
-    {t.hello}
+    <FormGroup className="col-8">
+      <h2>{t('login.Register')}</h2>
+      <Label>{t('login.Username')}</Label>
+      <Input />
+      <Label>{t('login.Password')}</Label>
+      <Input />
+    </FormGroup>
   </Container>
 );
 

@@ -41,7 +41,7 @@ const LoginForm = ({
           <Label for="examplePassword">{t('login.Password')}</Label>
           <Input type="password" value={password} onChange={changePassword} />
         </FormGroup>
-        <Button color="primary" className="btn-primary col-12" onClick={loginButtonPress}>
+        <Button color="primary" className="col-12" onClick={loginButtonPress}>
           {t('login.Ok')}
         </Button>
         <Link to="/register">
