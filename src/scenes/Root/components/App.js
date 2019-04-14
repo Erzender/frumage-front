@@ -13,8 +13,10 @@ import { BrowserRouter as Router, Route } from 'react-router-dom';
 
 import LoginForm from '../../Account/components/LoginForm';
 import RegisterForm from '../../Account/components/RegisterForm';
+import Board from '../../Board/components/Board';
 import { root, persist } from '../duck';
 import { account } from '../../Account/duck';
+import '../../../assets/fontAwesome';
 
 const persistConfig = {
   key: 'persist',
@@ -42,12 +44,18 @@ const persistor = persistStore(store);
 const App = withNamespaces()(() => (
   <div
     style={{
-      display: 'flex', flex: 1, position: 'absolute', top: 0, left: 0, right: 0, bottom: 0,
+      display: 'flex',
+      flex: 1,
+      position: 'absolute',
+      top: 0,
+      left: 0,
+      right: 0,
+      bottom: 0,
     }}
   >
     <Router>
       <div style={{ display: 'flex', flex: 1 }}>
-        <Route exact path="/" component={LoginForm} />
+        <Route exact path="/" component={Board} />
         <Route path="/register" component={RegisterForm} />
       </div>
     </Router>

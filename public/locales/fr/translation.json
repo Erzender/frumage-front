@@ -13,9 +13,9 @@
     "Password": "Mot de passe",
     "Subscribe": "S'enregistrer",
     "toLogin": "Retour"
-
   },
   "board": {
-    "TOPICS": "SUJETS"
+    "TOPICS": "SUJETS",
+    "THREADS": "CONVERSATIONS"
   }
 }
