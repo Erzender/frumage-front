@@ -6,7 +6,7 @@ import { connect } from 'react-redux';
 import { compose } from 'redux';
 import PropTypes from 'prop-types';
 import { withNamespaces } from 'react-i18next';
-import { Link } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 
 import background from '../../../assets/cheese.jpg';
 import AlertForm from './AlertForm';
@@ -32,11 +32,11 @@ const styles = {
 };
 
 const LoginForm = ({
-  t, name, password, loginButton, changeName, changePassword, loginToRegister, message,
+  t, name, password, loginButton, changeName, changePassword, loginToRegister, message, isLogged,
 }) => {
   const loginButtonPress = () => loginButton(name, password);
   const toRegisterButtonPress = () => loginToRegister();
-  return (
+  const container = (
     <Container style={styles.container}>
       <Jumbotron>
         <h2 style={styles.title}>{t('login.Log in')}</h2>
@@ -64,6 +64,7 @@ const LoginForm = ({
       </Jumbotron>
     </Container>
   );
+  return isLogged ? <Redirect to="/" /> : container;
 };
 
 LoginForm.propTypes = {
@@ -73,6 +74,7 @@ LoginForm.propTypes = {
   name: PropTypes.string.isRequired,
   password: PropTypes.string.isRequired,
   t: PropTypes.func.isRequired,
+  isLogged: PropTypes.bool.isRequired,
   loginToRegister: PropTypes.func.isRequired,
   message: PropTypes.shape({
     code: PropTypes.number,
@@ -99,6 +101,7 @@ const mapDispatchToProps = dispatch => ({
 const mapStateToProps = state => ({
   name: state.account.name,
   password: state.account.password,
+  isLogged: state.account.isLogged,
   message: state.account.message,
 });
 
