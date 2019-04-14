@@ -22,17 +22,19 @@ const styles = {
   },
 };
 
-const List = ({ Elem }) => (
+const List = ({ Elem, nodes }) => (
   <div style={styles.list}>
-    <Elem title="Hello" desc="super" />
-    <Elem title="Hello" desc="super" selected />
-    <Elem title="Hello" desc="super" recent />
-    <Elem title="Hello" desc="super" />
+    {nodes.map(node => (
+      <Elem node={node} />
+    ))}
   </div>
 );
 
 List.propTypes = {
   Elem: PropTypes.func.isRequired,
+  nodes: PropTypes.arrayOf(
+    PropTypes.objectOf(PropTypes.oneOfType([PropTypes.string, PropTypes.number])),
+  ).isRequired,
 };
 
 const LeftMenu = ({ t, style }) => (
@@ -41,7 +43,7 @@ const LeftMenu = ({ t, style }) => (
       <h4 className="noselect" style={styles.title}>
         {t('board.TOPICS')}
       </h4>
-      <List Elem={TopicElem} />
+      <List Elem={TopicElem} nodes={[]} />
     </div>
     <div style={styles.box}>
       <h4 style={styles.title}>{t('board.THREADS')}</h4>

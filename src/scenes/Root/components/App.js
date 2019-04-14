@@ -16,6 +16,7 @@ import RegisterForm from '../../Account/components/RegisterForm';
 import Board from '../../Board/components/Board';
 import { root, persist } from '../duck';
 import { account } from '../../Account/duck';
+import { board } from '../../Board/duck';
 import '../../../assets/fontAwesome';
 
 const persistConfig = {
@@ -25,7 +26,9 @@ const persistConfig = {
 
 const persistedReducer = persistReducer(persistConfig, persist);
 
-const rootReducer = combineReducers({ root, persistedReducer, account });
+const rootReducer = combineReducers({
+  root, persistedReducer, account, board,
+});
 
 /* eslint-disable no-underscore-dangle */
 
