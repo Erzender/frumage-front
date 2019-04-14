@@ -12,14 +12,16 @@ const styles = {
     display: 'flex',
     flex: 1,
     flexDirection: 'column',
+    overflow: 'hidden',
   },
   header: { display: 'flex', height: 60 },
   main: {
     display: 'flex',
     flex: 1,
     flexDirection: 'row',
+    overflow: 'hidden',
   },
-  left: { display: 'flex', flex: 2 },
+  left: { display: 'flex', flex: 2, overflow: 'hidden' },
   right: { display: 'flex', flex: 2 },
   content: { display: 'flex', flex: 8 },
 };

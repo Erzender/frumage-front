@@ -16,6 +16,7 @@
     "toLogin": "Back to Login"
   },
   "board": {
-    "TOPICS": "TOPICS"
+    "TOPICS": "TOPICS",
+    "THREADS": "THREADS"
   }
 }

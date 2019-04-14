@@ -17,6 +17,7 @@
 
   },
   "board": {
-    "TOPICS": "SUJETS"
+    "TOPICS": "SUJETS",
+    "THREADS": "CONVERSATIONS"
   }
 }
