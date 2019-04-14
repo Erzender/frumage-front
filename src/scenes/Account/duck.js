@@ -73,15 +73,23 @@ export const account = handleActions(
     }),
     [loginRequest]: state => ({ ...state, isLoading: true }),
     [loginSuccess]: state => ({ ...state, isLoading: false, isLogged: true }),
-    [loginFailure]: (state, { payload: { err } }) => (
-      { ...state, isLoading: false, message: { ...err, visible: true } }),
+    [loginFailure]: (state, { payload: { err } }) => ({
+      ...state,
+      isLoading: false,
+      message: { ...err, visible: true },
+    }),
     [registerRequest]: state => ({ ...state, isLoading: true }),
-    [registerFailure]: (state, { payload: { err } }) => (
-      { ...state, isLoading: false, message: { ...err, visible: true } }),
-    [registerSuccess]: (state, { payload: { ret } }) => (
-      {
-        ...state, isLoading: false, message: { ...ret, visible: true }, registered: true,
-      }),
+    [registerFailure]: (state, { payload: { err } }) => ({
+      ...state,
+      isLoading: false,
+      message: { ...err, visible: true },
+    }),
+    [registerSuccess]: (state, { payload: { ret } }) => ({
+      ...state,
+      isLoading: false,
+      message: { ...ret, visible: true },
+      registered: true,
+    }),
     [toRegister]: state => ({ ...state, registered: false }),
   },
   initialState,
