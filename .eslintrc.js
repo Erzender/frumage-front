@@ -19,6 +19,7 @@ module.exports = {
     'react',
   ],
   rules: {
+    "no-nested-ternary": 0,
     "react/jsx-filename-extension": 0
   },
 };

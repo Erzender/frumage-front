@@ -24,26 +24,10 @@ const styles = {
 
 const List = ({ Elem }) => (
   <div style={styles.list}>
-    <Elem />
-    <Elem selected />
-    <Elem />
-    <Elem />
-    <Elem />
-    <Elem />
-    <Elem />
-    <Elem />
-    <Elem />
-    <Elem />
-    <Elem />
-    <Elem />
-    <Elem />
-    <Elem />
-    <Elem />
-    <Elem />
-    <Elem />
-    <Elem />
-    <Elem />
-    <Elem />
+    <Elem title="Hello" desc="super" />
+    <Elem title="Hello" desc="super" selected />
+    <Elem title="Hello" desc="super" recent />
+    <Elem title="Hello" desc="super" />
   </div>
 );
 
