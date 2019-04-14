@@ -9,6 +9,7 @@ import { withNamespaces } from 'react-i18next';
 import { Link } from 'react-router-dom';
 
 import background from '../../../assets/cheese.jpg';
+import AlertForm from './AlertForm';
 import { login, loginInputChange, toRegister } from '../duck';
 
 const styles = {
@@ -31,7 +32,7 @@ const styles = {
 };
 
 const LoginForm = ({
-  t, name, password, loginButton, changeName, changePassword, loginToRegister,
+  t, name, password, loginButton, changeName, changePassword, loginToRegister, message,
 }) => {
   const loginButtonPress = () => loginButton(name, password);
   const toRegisterButtonPress = () => loginToRegister();
@@ -59,6 +60,7 @@ const LoginForm = ({
             {t('login.New Account')}
           </Button>
         </Link>
+        { message.visible ? <AlertForm message={message} /> : <div /> }
       </Jumbotron>
     </Container>
   );
@@ -72,6 +74,19 @@ LoginForm.propTypes = {
   password: PropTypes.string.isRequired,
   t: PropTypes.func.isRequired,
   loginToRegister: PropTypes.func.isRequired,
+  message: PropTypes.shape({
+    code: PropTypes.number,
+    response: PropTypes.string,
+    visible: PropTypes.bool,
+  }),
+};
+
+LoginForm.defaultProps = {
+  message: {
+    status: 0,
+    response: '',
+    visible: false,
+  },
 };
 
 const mapDispatchToProps = dispatch => ({
@@ -84,6 +99,7 @@ const mapDispatchToProps = dispatch => ({
 const mapStateToProps = state => ({
   name: state.account.name,
   password: state.account.password,
+  message: state.account.message,
 });
 
 export default compose(
