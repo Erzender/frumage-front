@@ -25,6 +25,11 @@ const styles = {
 const List = ({ Elem }) => (
   <div style={styles.list}>
     <Elem />
+    <Elem selected />
+    <Elem />
+    <Elem />
+    <Elem />
+    <Elem />
     <Elem />
     <Elem />
     <Elem />
@@ -49,7 +54,9 @@ List.propTypes = {
 const LeftMenu = ({ t, style }) => (
   <div style={{ ...style, ...styles.container }}>
     <div style={styles.box}>
-      <h4 style={styles.title}>{t('board.TOPICS')}</h4>
+      <h4 className="noselect" style={styles.title}>
+        {t('board.TOPICS')}
+      </h4>
       <List Elem={TopicElem} />
     </div>
     <div style={styles.box}>
@@ -60,7 +67,7 @@ const LeftMenu = ({ t, style }) => (
 
 LeftMenu.propTypes = {
   t: PropTypes.func.isRequired,
-  style: PropTypes.objectOf(PropTypes.string),
+  style: PropTypes.objectOf(PropTypes.oneOfType([PropTypes.string, PropTypes.number])),
 };
 
 LeftMenu.defaultProps = {

@@ -1,6 +1,7 @@
 {
   "login": {
     "Log in": "Log in",
+    "Login": "Login",
     "Username": "Username",
     "Password": "Password",
     "Ok": "Ok",
@@ -12,7 +13,7 @@
     "Username": "Username",
     "Password": "Password",
     "Subscribe": "Subscribe",
-    "toLogin": "to Login"
+    "toLogin": "Back to Login"
   },
   "board": {
     "TOPICS": "TOPICS",

@@ -57,6 +57,7 @@ const App = withNamespaces()(() => (
       <div style={{ display: 'flex', flex: 1 }}>
         <Route exact path="/" component={Board} />
         <Route path="/register" component={RegisterForm} />
+        <Route path="/login" component={LoginForm} />
       </div>
     </Router>
   </div>

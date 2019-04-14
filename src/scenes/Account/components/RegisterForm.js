@@ -1,52 +1,69 @@
 import React from 'react';
 import {
-  Container, Label, Input, FormGroup, Button,
+  Container, Label, Input, FormGroup, Button, Jumbotron,
 } from 'reactstrap';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import PropTypes from 'prop-types';
 import { withNamespaces } from 'react-i18next';
-import { Link } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 
+import background from '../../../assets/cheese.jpg';
 import { register, registerInputChange } from '../duck';
 
 const styles = {
   container: {
     display: 'flex',
     flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundImage: `url(${background})`,
+    backgroundSize: 'cover',
+    top: 0,
+    left: 0,
+    minHeight: '100%',
+    minWidth: '100%',
+    position: 'fixed',
+  },
+  title: {
+    textAlign: 'center',
   },
 };
 
 const RegisterForm = ({
-  t, name, password, registerButton, changeName, changePassword
-}) => 
-{
-  return (
+  t, name, password, registerButton, changeName, changePassword, registered,
+}) => {
+  const registerButtonPress = () => registerButton(name, password);
+  const container = (
     <Container style={styles.container}>
-      <FormGroup className="col-8">
-        <h2>{t('register.Register')}</h2>
-        <Label>{t('register.Username')}</Label>
-        <Input value={name} onChange={changeName} />
-        <Label>{t('register.Password')}</Label>
-        <Input type="password" value={password} onChange={changePassword}/>
-        <Button color="primary" className="col-10" onClick={registerButton}>
+      <Jumbotron>
+        <FormGroup>
+          <h2 style={styles.title}>{t('register.Register')}</h2>
+          <br />
+          <Label>{t('register.Username')}</Label>
+          <Input value={name} onChange={changeName} />
+          <Label>{t('register.Password')}</Label>
+          <Input type="password" value={password} onChange={changePassword} />
+          <br />
+          <Button color="primary" className="col-12" onClick={registerButtonPress}>
             {t('register.Subscribe')}
-        </Button>
-        <Link to="/">
-          <Button
-            outline
-            color="warning"
-            className="col-2">
-            {t('register.toLogin')}
           </Button>
-        </Link>
-      </FormGroup>
-      {/* <Switch>
-        {}
-      </Switch> */}
+          <Link to="/">
+            <Button
+              style={{ marginTop: 5 }}
+              // outline
+              color="link"
+              className="col-12"
+            >
+              {t('register.toLogin')}
+            </Button>
+          </Link>
+        </FormGroup>
+      </Jumbotron>
     </Container>
   );
-}
+  return registered ? <Redirect to="/" /> : container;
+};
 
 RegisterForm.propTypes = {
   registerButton: PropTypes.func.isRequired,
@@ -55,16 +72,19 @@ RegisterForm.propTypes = {
   name: PropTypes.string.isRequired,
   password: PropTypes.string.isRequired,
   t: PropTypes.func.isRequired,
+  registered: PropTypes.bool.isRequired,
 };
 
 const mapDispatchToProps = dispatch => ({
   registerButton: (name, password) => dispatch(register(name, password)),
   changeName: event => dispatch(registerInputChange('name', event.target.value)),
-  changePassword: event => dispatch(registerInputChange('password', event.target.value)),});
+  changePassword: event => dispatch(registerInputChange('password', event.target.value)),
+});
 
 const mapStateToProps = state => ({
   name: state.account.name,
   password: state.account.password,
+  registered: state.account.registered,
 });
 
 export default compose(

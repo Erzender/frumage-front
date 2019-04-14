@@ -11,7 +11,7 @@ const styles = {
 const Header = ({ style }) => <div style={{ ...style, ...styles.container }} />;
 
 Header.propTypes = {
-  style: PropTypes.objectOf(PropTypes.string),
+  style: PropTypes.objectOf(PropTypes.oneOfType([PropTypes.string, PropTypes.number])),
 };
 
 Header.defaultProps = {
