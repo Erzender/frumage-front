@@ -5,7 +5,7 @@ import service from '../../service';
 export const { topicsRequest, topicsFailure, topicsSuccess } = createActions({
   TOPICS_REQUEST: () => ({}),
   TOPICS_FAILURE: () => ({}),
-  TOPICS_SUCCESS: () => ({}),
+  TOPICS_SUCCESS: topics => ({ topics }),
 });
 
 export const getTopics = token => async (dispatch) => {
@@ -26,4 +26,9 @@ const initialBoardState = {
   topics: [],
 };
 
-export const board = handleActions({}, initialBoardState);
+export const board = handleActions(
+  {
+    [topicsSuccess]: (state, { payload: { topics } }) => ({ ...state, topics }),
+  },
+  initialBoardState,
+);

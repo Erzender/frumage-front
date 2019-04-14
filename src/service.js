@@ -46,7 +46,7 @@ const fetchTopics = async (token) => {
   try {
     const res = await fetch(`${config.apiUrl}/topics`, {
       method: 'GET',
-      headers: { 'Content-Type': 'application/json', token: token || undefined },
+      headers: { 'Content-Type': 'application/json', token: token || '' },
     });
     if (res.status !== 200) {
       return { status: res.status, response: await res.text() };

@@ -4,5 +4,7 @@ const initialRootState = {};
 
 export const root = handleActions({}, initialRootState);
 
-const initialPersistState = {};
+const initialPersistState = {
+  token: null,
+};
 export const persist = handleActions({}, initialPersistState);

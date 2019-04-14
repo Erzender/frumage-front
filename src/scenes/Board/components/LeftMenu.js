@@ -25,7 +25,7 @@ const styles = {
 const List = ({ Elem, nodes }) => (
   <div style={styles.list}>
     {nodes.map(node => (
-      <Elem node={node} />
+      <Elem key={node.id} node={node} />
     ))}
   </div>
 );
@@ -33,17 +33,17 @@ const List = ({ Elem, nodes }) => (
 List.propTypes = {
   Elem: PropTypes.func.isRequired,
   nodes: PropTypes.arrayOf(
-    PropTypes.objectOf(PropTypes.oneOfType([PropTypes.string, PropTypes.number])),
+    PropTypes.objectOf(PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool])),
   ).isRequired,
 };
 
-const LeftMenu = ({ t, style }) => (
+const LeftMenu = ({ t, style, topics }) => (
   <div style={{ ...style, ...styles.container }}>
     <div style={styles.box}>
       <h4 className="noselect" style={styles.title}>
         {t('board.TOPICS')}
       </h4>
-      <List Elem={TopicElem} nodes={[]} />
+      <List Elem={TopicElem} nodes={topics} />
     </div>
     <div style={styles.box}>
       <h4 style={styles.title}>{t('board.THREADS')}</h4>
@@ -53,6 +53,9 @@ const LeftMenu = ({ t, style }) => (
 
 LeftMenu.propTypes = {
   t: PropTypes.func.isRequired,
+  topics: PropTypes.arrayOf(
+    PropTypes.objectOf(PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool])),
+  ).isRequired,
   style: PropTypes.objectOf(PropTypes.oneOfType([PropTypes.string, PropTypes.number])),
 };
 
@@ -62,7 +65,15 @@ LeftMenu.defaultProps = {
 
 const mapDispatchToProps = () => ({});
 
-const mapStateToProps = () => ({});
+const mapStateToProps = state => ({
+  topics: state.board.topics.map(topic => ({
+    title: topic.name,
+    desc: topic.description,
+    selected: false,
+    recent: false,
+    id: topic.id,
+  })),
+});
 
 export default compose(
   connect(

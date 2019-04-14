@@ -70,7 +70,9 @@ const TopicElem = ({ node }) => (
 );
 
 TopicElem.propTypes = {
-  node: PropTypes.objectOf(PropTypes.oneOfType([PropTypes.string, PropTypes.number])).isRequired,
+  node: PropTypes.objectOf(
+    PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool]),
+  ).isRequired,
 };
 
 export default TopicElem;
