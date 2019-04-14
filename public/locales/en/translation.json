@@ -13,5 +13,8 @@
     "Password": "Password",
     "Subscribe": "Subscribe",
     "toLogin": "to Login"
+  },
+  "board": {
+    "TOPICS": "TOPICS"
   }
 }
