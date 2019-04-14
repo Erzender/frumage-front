@@ -1,11 +1,14 @@
 import React from 'react';
 import {
-  Container, Label, Input, FormGroup,
+  Container, Label, Input, FormGroup, Button,
 } from 'reactstrap';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import PropTypes from 'prop-types';
 import { withNamespaces } from 'react-i18next';
+import { Link } from 'react-router-dom';
+
+import { register, registerInputChange } from '../duck';
 
 const styles = {
   container: {
@@ -14,25 +17,55 @@ const styles = {
   },
 };
 
-const RegisterForm = ({ t }) => (
-  <Container style={styles.container}>
-    <FormGroup className="col-8">
-      <h2>{t('login.Register')}</h2>
-      <Label>{t('login.Username')}</Label>
-      <Input />
-      <Label>{t('login.Password')}</Label>
-      <Input />
-    </FormGroup>
-  </Container>
-);
+const RegisterForm = ({
+  t, name, password, registerButton, changeName, changePassword
+}) => 
+{
+  return (
+    <Container style={styles.container}>
+      <FormGroup className="col-8">
+        <h2>{t('register.Register')}</h2>
+        <Label>{t('register.Username')}</Label>
+        <Input value={name} onChange={changeName} />
+        <Label>{t('register.Password')}</Label>
+        <Input type="password" value={password} onChange={changePassword}/>
+        <Button color="primary" className="col-10" onClick={registerButton}>
+            {t('register.Subscribe')}
+        </Button>
+        <Link to="/">
+          <Button
+            outline
+            color="warning"
+            className="col-2">
+            {t('register.toLogin')}
+          </Button>
+        </Link>
+      </FormGroup>
+      {/* <Switch>
+        {}
+      </Switch> */}
+    </Container>
+  );
+}
 
 RegisterForm.propTypes = {
+  registerButton: PropTypes.func.isRequired,
+  changeName: PropTypes.func.isRequired,
+  changePassword: PropTypes.func.isRequired,
+  name: PropTypes.string.isRequired,
+  password: PropTypes.string.isRequired,
   t: PropTypes.func.isRequired,
 };
 
-const mapDispatchToProps = () => ({});
+const mapDispatchToProps = dispatch => ({
+  registerButton: (name, password) => dispatch(register(name, password)),
+  changeName: event => dispatch(registerInputChange('name', event.target.value)),
+  changePassword: event => dispatch(registerInputChange('password', event.target.value)),});
 
-const mapStateToProps = () => ({});
+const mapStateToProps = state => ({
+  name: state.account.name,
+  password: state.account.password,
+});
 
 export default compose(
   connect(

@@ -6,5 +6,13 @@
     "Ok": "Ok",
     "New Account": "Créer un compte",
     "Register": "Nouveau compte"
+  },
+  "register": {
+    "Register": "Créer un compte",
+    "Username": "Nom d'utilisateur",
+    "Password": "Mot de passe",
+    "Subscribe": "S'enregistrer",
+    "toLogin": "Retour"
+
   }
 }

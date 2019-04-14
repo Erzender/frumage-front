@@ -6,5 +6,12 @@
     "Ok": "Ok",
     "New Account": "New Account",
     "Register": "Register"
+  },
+  "register": {
+    "Register": "Register",
+    "Username": "Username",
+    "Password": "Password",
+    "Subscribe": "Subscribe",
+    "toLogin": "to Login"
   }
 }

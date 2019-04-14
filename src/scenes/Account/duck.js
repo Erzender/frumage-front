@@ -9,14 +9,16 @@ export const {
   registerSuccess,
   registerFailure,
   loginInputChange,
+  registerInputChange,
 } = createActions({
   LOGIN_REQUEST: () => ({}),
   LOGIN_SUCCESS: token => ({ token }),
   LOGIN_FAILURE: err => ({ err }),
   REGISTER_REQUEST: () => ({}),
   REGISTER_SUCCESS: () => ({}),
-  REGISTER_FAILURE: () => ({}),
+  REGISTER_FAILURE: err => ({ err }),
   LOGIN_INPUT_CHANGE: (input, value) => ({ input, value }),
+  REGISTER_INPUT_CHANGE: (input, value) => ({ input, value }),
 });
 
 console.log(loginInputChange);
@@ -48,7 +50,7 @@ export const register = (name, password) => async (dispatch) => {
 const initialState = {
   isLoading: false,
   registered: false,
-  isLogged: true,
+  isLogged: false,
   name: '',
   password: '',
 };
@@ -60,12 +62,17 @@ export const account = handleActions(
       name: input === 'name' ? value : state.name,
       password: input === 'password' ? value : state.password,
     }),
+    [registerInputChange]: (state, { payload: { input, value } }) => ({
+      ...state,
+      name: input === 'name' ? value : state.name,
+      password: input === 'password' ? value : state.password,
+    }),
     [loginRequest]: state => ({ ...state, isLoading: true }),
     [loginSuccess]: state => ({ ...state, isLoading: false, isLogged: true }),
     [loginFailure]: state => ({ ...state, isLoading: false }),
     [registerFailure]: state => ({ ...state, isLoading: false }),
     [registerRequest]: state => ({ ...state, isLoading: true }),
-    [registerSuccess]: state => ({ ...state, isLoading: false }),
+    [registerSuccess]: state => ({ ...state, isLoading: false, registered: true }),
   },
   initialState,
 );

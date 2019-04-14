@@ -1,4 +1,5 @@
-const apiUrl = 'https://frumage-preprod.herokuapp.com/api';
+// const apiUrl = 'https://frumage-preprod.herokuapp.com/api';
+const apiUrl = 'https://frumage.herokuapp.com/';
 
 const login = async (name, password) => {
   try {
@@ -23,6 +24,8 @@ const login = async (name, password) => {
 };
 
 const register = async (name, password) => {
+  console.log("register service")
+  console.log(name, password);
   try {
     const res = await fetch(`${apiUrl}/account`, {
       method: 'POST',
