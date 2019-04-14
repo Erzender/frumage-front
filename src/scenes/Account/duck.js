@@ -41,7 +41,9 @@ export const register = (name, password) => async (dispatch) => {
   dispatch(registerRequest());
   try {
     const ret = await service.register(name, password);
-    if (ret.status !== 200) {
+    console.log(ret);
+    // if (ret.status !== 200) {
+    if (!ret.success) {
       throw ret;
     }
     dispatch(registerSuccess(ret));
@@ -56,6 +58,7 @@ const initialState = {
   isLogged: false,
   name: '',
   password: '',
+  message: { status: 0, response: '', visible: false },
 };
 
 export const account = handleActions(
@@ -73,7 +76,8 @@ export const account = handleActions(
     [loginRequest]: state => ({ ...state, isLoading: true }),
     [loginSuccess]: state => ({ ...state, isLoading: false, isLogged: true }),
     [loginFailure]: state => ({ ...state, isLoading: false }),
-    [registerFailure]: state => ({ ...state, isLoading: false }),
+    [registerFailure]: (state, { payload: { err } }) => ({ ...state, isLoading: false, message: { ...err, visible: true } }),
+    // [registerFailure]: (state, { payload: { err: { response } } }) => ({ ...state, isLoading: false, message: response }),
     [registerRequest]: state => ({ ...state, isLoading: true }),
     [registerSuccess]: state => ({ ...state, isLoading: false, registered: true }),
     [toRegister]: state => ({ ...state, registered: false }),

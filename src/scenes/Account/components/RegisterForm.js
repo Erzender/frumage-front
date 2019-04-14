@@ -1,6 +1,6 @@
 import React from 'react';
 import {
-  Container, Label, Input, FormGroup, Button, Jumbotron,
+  Container, Label, Input, FormGroup, Button, Jumbotron, Alert,
 } from 'reactstrap';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
@@ -25,20 +25,33 @@ const styles = {
     minWidth: '100%',
     position: 'fixed',
   },
-  title: {
+  toCenter: {
     textAlign: 'center',
+  },
+  alert: {
+    textAlign: 'center',
+    fontWeight: 'bold',
   },
 };
 
 const RegisterForm = ({
-  t, name, password, registerButton, changeName, changePassword, registered,
+  t, name, password, registerButton, changeName, changePassword, registered, message,
 }) => {
   const registerButtonPress = () => registerButton(name, password);
+  const alert = (
+    <Alert
+      color={message.status === 200 ? 'success' : 'danger'}
+      style={styles.alert}
+      isOpen={message.visible}
+    >
+      {message.response}
+    </Alert>
+  );
   const container = (
     <Container style={styles.container}>
       <Jumbotron>
         <FormGroup>
-          <h2 style={styles.title}>{t('register.Register')}</h2>
+          <h2 style={styles.toCenter}>{t('register.Register')}</h2>
           <br />
           <Label>{t('register.Username')}</Label>
           <Input value={name} onChange={changeName} />
@@ -51,7 +64,6 @@ const RegisterForm = ({
           <Link to="/">
             <Button
               style={{ marginTop: 5 }}
-              // outline
               color="link"
               className="col-12"
             >
@@ -59,6 +71,7 @@ const RegisterForm = ({
             </Button>
           </Link>
         </FormGroup>
+        { message.visible ? alert : <div /> }
       </Jumbotron>
     </Container>
   );
@@ -73,6 +86,19 @@ RegisterForm.propTypes = {
   password: PropTypes.string.isRequired,
   t: PropTypes.func.isRequired,
   registered: PropTypes.bool.isRequired,
+  message: PropTypes.shape({
+    code: PropTypes.number,
+    response: PropTypes.string,
+    visible: PropTypes.bool,
+  }),
+};
+
+RegisterForm.defaultProps = {
+  message: {
+    status: 0,
+    response: '',
+    visible: false,
+  },
 };
 
 const mapDispatchToProps = dispatch => ({
@@ -85,6 +111,7 @@ const mapStateToProps = state => ({
   name: state.account.name,
   password: state.account.password,
   registered: state.account.registered,
+  message: state.account.message,
 });
 
 export default compose(
