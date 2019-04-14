@@ -38,7 +38,10 @@ const styles = {
     textOverflow: 'ellipsis',
   },
   title: {
-    marginBottom: 0, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis',
+    marginBottom: 0,
+    whiteSpace: 'nowrap',
+    overflow: 'hidden',
+    textOverflow: 'ellipsis',
   },
   desc: {
     whiteSpace: 'nowrap',
@@ -47,30 +50,37 @@ const styles = {
   },
 };
 
-const TopicElem = ({ selected }) => (
+const TopicElem = ({
+  selected, recent, title, desc,
+}) => (
   <div
     className="listElem noselect"
     style={selected ? { ...styles.container, ...styles.selected } : styles.container}
   >
     <FontAwesomeIcon
       icon="cheese"
-      style={{ ...styles.icon, backgroundColor: selected ? '#FFFFFF' : '#777777' }}
+      style={{
+        ...styles.icon,
+        backgroundColor: recent ? '#FF0000' : selected ? '#FFFFFF' : '#777777',
+      }}
     />
     <div style={styles.text}>
-      <h5 style={styles.title}>Hello world</h5>
-      <div style={styles.desc}>
-        ya ezrizehrze iroezrozerrzeoeriuz sezrezrezr zerzetrezrzeezr rrr y
-      </div>
+      <h5 style={styles.title}>{title}</h5>
+      <div style={styles.desc}>{desc}</div>
     </div>
   </div>
 );
 
 TopicElem.propTypes = {
   selected: PropTypes.bool,
+  recent: PropTypes.bool,
+  title: PropTypes.string.isRequired,
+  desc: PropTypes.string.isRequired,
 };
 
 TopicElem.defaultProps = {
   selected: false,
+  recent: false,
 };
 
 export default TopicElem;
