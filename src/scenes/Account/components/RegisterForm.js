@@ -1,14 +1,15 @@
 import React from 'react';
 import {
-  Container, Label, Input, FormGroup, Button, Jumbotron, Alert,
+  Container, Label, Input, FormGroup, Button, Jumbotron,
 } from 'reactstrap';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
-import PropTypes from 'prop-types';
 import { withNamespaces } from 'react-i18next';
 import { Link, Redirect } from 'react-router-dom';
+import PropTypes from 'prop-types';
 
 import background from '../../../assets/cheese.jpg';
+import AlertForm from './AlertForm';
 import { register, registerInputChange } from '../duck';
 
 const styles = {
@@ -28,25 +29,12 @@ const styles = {
   toCenter: {
     textAlign: 'center',
   },
-  alert: {
-    textAlign: 'center',
-    fontWeight: 'bold',
-  },
 };
 
 const RegisterForm = ({
   t, name, password, registerButton, changeName, changePassword, registered, message,
 }) => {
   const registerButtonPress = () => registerButton(name, password);
-  const alert = (
-    <Alert
-      color={message.status === 200 ? 'success' : 'danger'}
-      style={styles.alert}
-      isOpen={message.visible}
-    >
-      {message.response}
-    </Alert>
-  );
   const container = (
     <Container style={styles.container}>
       <Jumbotron>
@@ -61,7 +49,7 @@ const RegisterForm = ({
           <Button color="primary" className="col-12" onClick={registerButtonPress}>
             {t('register.Subscribe')}
           </Button>
-          <Link to="/">
+          <Link to="/login">
             <Button
               style={{ marginTop: 5 }}
               color="link"
@@ -71,11 +59,11 @@ const RegisterForm = ({
             </Button>
           </Link>
         </FormGroup>
-        { message.visible ? alert : <div /> }
+        { message.visible ? <AlertForm message={message} /> : <div /> }
       </Jumbotron>
     </Container>
   );
-  return registered ? <Redirect to="/" /> : container;
+  return registered ? <Redirect to="/login" /> : container;
 };
 
 RegisterForm.propTypes = {

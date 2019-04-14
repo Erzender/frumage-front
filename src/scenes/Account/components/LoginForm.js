@@ -6,9 +6,10 @@ import { connect } from 'react-redux';
 import { compose } from 'redux';
 import PropTypes from 'prop-types';
 import { withNamespaces } from 'react-i18next';
-import { Link } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 
 import background from '../../../assets/cheese.jpg';
+import AlertForm from './AlertForm';
 import { login, loginInputChange, toRegister } from '../duck';
 
 const styles = {
@@ -31,11 +32,11 @@ const styles = {
 };
 
 const LoginForm = ({
-  t, name, password, loginButton, changeName, changePassword, loginToRegister,
+  t, name, password, loginButton, changeName, changePassword, loginToRegister, message, isLogged,
 }) => {
   const loginButtonPress = () => loginButton(name, password);
   const toRegisterButtonPress = () => loginToRegister();
-  return (
+  const container = (
     <Container style={styles.container}>
       <Jumbotron>
         <h2 style={styles.title}>{t('login.Log in')}</h2>
@@ -59,9 +60,11 @@ const LoginForm = ({
             {t('login.New Account')}
           </Button>
         </Link>
+        { message.visible ? <AlertForm message={message} /> : <div /> }
       </Jumbotron>
     </Container>
   );
+  return isLogged ? <Redirect to="/" /> : container;
 };
 
 LoginForm.propTypes = {
@@ -71,7 +74,21 @@ LoginForm.propTypes = {
   name: PropTypes.string.isRequired,
   password: PropTypes.string.isRequired,
   t: PropTypes.func.isRequired,
+  isLogged: PropTypes.bool.isRequired,
   loginToRegister: PropTypes.func.isRequired,
+  message: PropTypes.shape({
+    code: PropTypes.number,
+    response: PropTypes.string,
+    visible: PropTypes.bool,
+  }),
+};
+
+LoginForm.defaultProps = {
+  message: {
+    status: 0,
+    response: '',
+    visible: false,
+  },
 };
 
 const mapDispatchToProps = dispatch => ({
@@ -84,6 +101,8 @@ const mapDispatchToProps = dispatch => ({
 const mapStateToProps = state => ({
   name: state.account.name,
   password: state.account.password,
+  isLogged: state.account.isLogged,
+  message: state.account.message,
 });
 
 export default compose(

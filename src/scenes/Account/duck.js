@@ -16,7 +16,7 @@ export const {
   LOGIN_SUCCESS: token => ({ token }),
   LOGIN_FAILURE: err => ({ err }),
   REGISTER_REQUEST: () => ({}),
-  REGISTER_SUCCESS: () => ({}),
+  REGISTER_SUCCESS: ret => ({ ret }),
   REGISTER_FAILURE: err => ({ err }),
   LOGIN_INPUT_CHANGE: (input, value) => ({ input, value }),
   REGISTER_INPUT_CHANGE: (input, value) => ({ input, value }),
@@ -42,7 +42,6 @@ export const register = (name, password) => async (dispatch) => {
   try {
     const ret = await service.register(name, password);
     console.log(ret);
-    // if (ret.status !== 200) {
     if (!ret.success) {
       throw ret;
     }
@@ -75,11 +74,13 @@ export const account = handleActions(
     }),
     [loginRequest]: state => ({ ...state, isLoading: true }),
     [loginSuccess]: state => ({ ...state, isLoading: false, isLogged: true }),
-    [loginFailure]: state => ({ ...state, isLoading: false }),
-    [registerFailure]: (state, { payload: { err } }) => ({ ...state, isLoading: false, message: { ...err, visible: true } }),
-    // [registerFailure]: (state, { payload: { err: { response } } }) => ({ ...state, isLoading: false, message: response }),
+    [loginFailure]: (state, { payload: { err } }) => ({ ...state, isLoading: false, message: { ...err, visible: true } }),
+    // [loginFailure]: state => ({ ...state, isLoading: false }),
     [registerRequest]: state => ({ ...state, isLoading: true }),
-    [registerSuccess]: state => ({ ...state, isLoading: false, registered: true }),
+    [registerFailure]: (state, { payload: { err } }) => ({ ...state, isLoading: false, message: { ...err, visible: true } }),
+    [registerSuccess]: (state, { payload: { ret } }) => ({ ...state, isLoading: false, message: { ...ret, visible: true }, registered: true }),
+    // [registerFailure]: (state, { payload: { err: { response } } }) => ({ ...state, isLoading: false, message: response }),
+    // [registerSuccess]: state => ({ ...state, isLoading: false, registered: true }),
     [toRegister]: state => ({ ...state, registered: false }),
   },
   initialState,
