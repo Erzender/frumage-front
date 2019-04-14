@@ -1,9 +1,8 @@
-// const apiUrl = 'https://frumage-preprod.herokuapp.com/api';
-const apiUrl = 'https://frumage.herokuapp.com/api';
+import config from './config.json';
 
 const login = async (name, password) => {
   try {
-    const res = await fetch(`${apiUrl}/login`, {
+    const res = await fetch(`${config.apiUrl}/login`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -24,7 +23,7 @@ const login = async (name, password) => {
 
 const register = async (name, password) => {
   try {
-    const res = await fetch(`${apiUrl}/account`, {
+    const res = await fetch(`${config.apiUrl}/account`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -43,8 +42,23 @@ const register = async (name, password) => {
   }
 };
 
+const fetchTopics = async (token) => {
+  try {
+    const res = await fetch(`${config.apiUrl}/topics`, {
+      method: 'GET',
+      headers: { 'Content-Type': 'application/json', token: token || undefined },
+    });
+    if (res.status !== 200) {
+      return { status: res.status, response: await res.text() };
+    }
+    return await res.json();
+  } catch (err) {
+    return 'fetch error';
+  }
+};
+
 export default {
   login,
   register,
-  // getUserData
+  fetchTopics,
 };

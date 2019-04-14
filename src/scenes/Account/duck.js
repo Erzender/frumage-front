@@ -1,5 +1,5 @@
 import { createActions, handleActions } from 'redux-actions';
-import service from '../../service/account.service';
+import service from '../../service';
 
 export const {
   loginRequest,
