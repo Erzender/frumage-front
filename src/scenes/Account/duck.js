@@ -10,6 +10,7 @@ export const {
   registerFailure,
   loginInputChange,
   registerInputChange,
+  toRegister,
 } = createActions({
   LOGIN_REQUEST: () => ({}),
   LOGIN_SUCCESS: token => ({ token }),
@@ -19,6 +20,7 @@ export const {
   REGISTER_FAILURE: err => ({ err }),
   LOGIN_INPUT_CHANGE: (input, value) => ({ input, value }),
   REGISTER_INPUT_CHANGE: (input, value) => ({ input, value }),
+  TO_REGISTER: () => ({}),
 });
 
 console.log(loginInputChange);
@@ -73,6 +75,7 @@ export const account = handleActions(
     [registerFailure]: state => ({ ...state, isLoading: false }),
     [registerRequest]: state => ({ ...state, isLoading: true }),
     [registerSuccess]: state => ({ ...state, isLoading: false, registered: true }),
+    [toRegister]: state => ({ ...state, registered: false }),
   },
   initialState,
 );

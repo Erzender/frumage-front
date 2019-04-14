@@ -9,7 +9,7 @@ import { withNamespaces } from 'react-i18next';
 import { Link } from 'react-router-dom';
 
 import background from '../../../assets/cheese.jpg';
-import { login, loginInputChange } from '../duck';
+import { login, loginInputChange, toRegister } from '../duck';
 
 const styles = {
   container: {
@@ -28,9 +28,10 @@ const styles = {
 };
 
 const LoginForm = ({
-  t, name, password, loginButton, changeName, changePassword,
+  t, name, password, loginButton, changeName, changePassword, loginToRegister,
 }) => {
   const loginButtonPress = () => loginButton(name, password);
+  const toRegisterButtonPress = () => loginToRegister();
   return (
     <Container style={styles.container}>
       <Jumbotron>
@@ -47,9 +48,9 @@ const LoginForm = ({
         <Link to="/register">
           <Button
             style={{ marginTop: 5 }}
-            color="default"
+            color="link"
             className="col-12"
-            onClick={loginButtonPress}
+            onClick={toRegisterButtonPress}
           >
             {t('login.New Account')}
           </Button>
@@ -66,12 +67,14 @@ LoginForm.propTypes = {
   name: PropTypes.string.isRequired,
   password: PropTypes.string.isRequired,
   t: PropTypes.func.isRequired,
+  loginToRegister: PropTypes.func.isRequired,
 };
 
 const mapDispatchToProps = dispatch => ({
   loginButton: (name, password) => dispatch(login(name, password)),
   changeName: event => dispatch(loginInputChange('name', event.target.value)),
   changePassword: event => dispatch(loginInputChange('password', event.target.value)),
+  loginToRegister: () => dispatch(toRegister()),
 });
 
 const mapStateToProps = state => ({
