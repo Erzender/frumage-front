@@ -1,3 +1,4 @@
 {
-  "apiUrl": "http://localhost:8080/api"
+  "apiLocalUrl": "http://localhost:8080/api",
+  "apiUrl": "https://frumage.herokuapp.com/api"
 }
