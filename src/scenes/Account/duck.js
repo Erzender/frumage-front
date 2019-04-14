@@ -23,8 +23,6 @@ export const {
   TO_REGISTER: () => ({}),
 });
 
-console.log(loginInputChange);
-
 export const login = (name, password) => async (dispatch) => {
   dispatch(loginRequest());
   try {
@@ -43,6 +41,9 @@ export const register = (name, password) => async (dispatch) => {
   dispatch(registerRequest());
   try {
     const ret = await service.register(name, password);
+    if (ret.status !== 200) {
+      throw ret;
+    }
     dispatch(registerSuccess(ret));
   } catch (err) {
     dispatch(registerFailure(err));

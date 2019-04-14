@@ -25,6 +25,9 @@ const styles = {
     minWidth: '100%',
     position: 'fixed',
   },
+  title: {
+    textAlign: 'center',
+  },
 };
 
 const LoginForm = ({
@@ -35,7 +38,8 @@ const LoginForm = ({
   return (
     <Container style={styles.container}>
       <Jumbotron>
-        <h2>{t('login.Log in')}</h2>
+        <h2 style={styles.title}>{t('login.Log in')}</h2>
+        <br />
         <FormGroup>
           <Label>{t('login.Username')}</Label>
           <Input value={name} onChange={changeName} />
@@ -43,7 +47,7 @@ const LoginForm = ({
           <Input type="password" value={password} onChange={changePassword} />
         </FormGroup>
         <Button color="primary" className="col-12" onClick={loginButtonPress}>
-          {t('login.Ok')}
+          {t('login.Login')}
         </Button>
         <Link to="/register">
           <Button
