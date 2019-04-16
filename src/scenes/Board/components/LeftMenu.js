@@ -4,6 +4,7 @@ import { compose } from 'redux';
 import PropTypes from 'prop-types';
 import { withNamespaces } from 'react-i18next';
 import TopicElem from './TopicElem';
+import ThreadElem from './ThreadElem';
 
 const styles = {
   container: { backgroundColor: '#222222', color: '#FFFFFF', flexDirection: 'column' },
@@ -47,6 +48,25 @@ const LeftMenu = ({ t, style, topics }) => (
     </div>
     <div style={styles.box}>
       <h4 style={styles.title}>{t('board.THREADS')}</h4>
+      <List
+        Elem={ThreadElem}
+        nodes={[
+          {
+            id: '1',
+            selected: true,
+            recent: false,
+            title: 'test',
+            desc: 'blblblblblbl',
+          },
+          {
+            id: '2',
+            selected: false,
+            recent: false,
+            title: 'test',
+            desc: 'blblblblblbl',
+          },
+        ]}
+      />
     </div>
   </div>
 );

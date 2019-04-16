@@ -50,37 +50,29 @@ const styles = {
   },
 };
 
-const ThreadElem = ({
-  selected, recent, title, desc,
-}) => (
+const ThreadElem = ({ node }) => (
   <div
     className="listElem noselect"
-    style={selected ? { ...styles.container, ...styles.selected } : styles.container}
+    style={node.selected ? { ...styles.container, ...styles.selected } : styles.container}
   >
     <FontAwesomeIcon
-      icon="cheese"
+      icon="scroll"
       style={{
         ...styles.icon,
-        backgroundColor: recent ? '#FF0000' : selected ? '#FFFFFF' : '#777777',
+        backgroundColor: node.recent ? '#FF0000' : node.selected ? '#FFFFFF' : '#777777',
       }}
     />
     <div style={styles.text}>
-      <h5 style={styles.title}>{title}</h5>
-      <div style={styles.desc}>{desc}</div>
+      <h5 style={styles.title}>{node.title}</h5>
+      <div style={styles.desc}>{node.desc}</div>
     </div>
   </div>
 );
 
 ThreadElem.propTypes = {
-  selected: PropTypes.bool,
-  recent: PropTypes.bool,
-  title: PropTypes.string.isRequired,
-  desc: PropTypes.string.isRequired,
-};
-
-ThreadElem.defaultProps = {
-  selected: false,
-  recent: false,
+  node: PropTypes.objectOf(
+    PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool]),
+  ).isRequired,
 };
 
 export default ThreadElem;
