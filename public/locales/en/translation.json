@@ -17,6 +17,7 @@
   },
   "board": {
     "TOPICS": "TOPICS",
-    "THREADS": "THREADS"
+    "THREADS": "THREADS",
+    "ROOM": "ROOM"
   }
 }

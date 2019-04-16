@@ -18,6 +18,7 @@
   },
   "board": {
     "TOPICS": "SUJETS",
-    "THREADS": "CONVERSATIONS"
+    "THREADS": "CONVERSATIONS",
+    "ROOM": "CONNECTES"
   }
 }

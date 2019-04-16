@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 import { withNamespaces } from 'react-i18next';
 import TopicElem from './TopicElem';
 import ThreadElem from './ThreadElem';
+import List from '../../componentsReuse/List';
 
 const styles = {
   container: { backgroundColor: '#222222', color: '#FFFFFF', flexDirection: 'column' },
@@ -15,27 +16,6 @@ const styles = {
     overflow: 'hidden',
     flexDirection: 'column',
   },
-  list: {
-    display: 'flex',
-    flex: 1,
-    overflow: 'auto',
-    flexDirection: 'column',
-  },
-};
-
-const List = ({ Elem, nodes }) => (
-  <div style={styles.list}>
-    {nodes.map(node => (
-      <Elem key={node.id} node={node} />
-    ))}
-  </div>
-);
-
-List.propTypes = {
-  Elem: PropTypes.func.isRequired,
-  nodes: PropTypes.arrayOf(
-    PropTypes.objectOf(PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool])),
-  ).isRequired,
 };
 
 const LeftMenu = ({ t, style, topics }) => (
