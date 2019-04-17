@@ -27,7 +27,7 @@ const styles = {
   },
   left: { display: 'flex', width: 250, overflow: 'hidden' },
   right: { display: 'flex', width: 250, overflow: 'hidden' },
-  content: { display: 'flex', flex: 8 },
+  content: { display: 'flex', flex: 8, overflow: 'hidden' },
 };
 
 class Board extends React.Component {

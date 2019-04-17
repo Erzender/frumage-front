@@ -24,6 +24,33 @@ export const getTopics = token => async (dispatch) => {
 
 const initialBoardState = {
   topics: [],
+  threads: [],
+  messages: [
+    {
+      author: 'Erzender',
+      pic: 'https://www.brick-a-brack.com/users/image/800/600/?1550004299',
+      rank: 'User',
+      text: 'Je connaishhhhhhhhhhhishhhhhhhhhhhishhhhhhhhhhhishhhhhhhhhhhis\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nhhhhhhhhhhhishhhhhhhhhhhishhhhhhhhhhhishhhhhhhhhhhishhhhhhhhhhhishh hhhhhhhhhishhhhhhhhhhhishhhhhhhhhhhishhhhhhhhhhhishhhhhhhhhhhishhhhhhhhhhhishhhhhhhhhAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAhhhhhhhhhhhhhh le kung fu\n\n\n\n\n\n\n\n\n\n\n\n \nmdr',
+      time: '2019-03-23T14:34:20.940Z',
+      id: 4,
+    },
+    {
+      author: 'Erzender',
+      pic: '',
+      rank: 'User',
+      text: 'Je connais le kung fu\n\n\n\n\n\n\n\n\n\n\n\n \nmdr',
+      time: '2019-03-23T14:34:20.940Z',
+      id: 4,
+    },
+    {
+      author: 'Erzender',
+      pic: 'https://www.brick-a-brack.com/users/image/800/600/?1550004299',
+      rank: 'User',
+      text: 'Je connais le kung fu\n\n\n\n\n\n\n\n\n\n\n\n \nmdr',
+      time: '2019-03-23T14:34:20.940Z',
+      id: 4,
+    },
+  ],
 };
 
 export const board = handleActions(

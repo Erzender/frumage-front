@@ -4,10 +4,14 @@ import { compose } from 'redux';
 import PropTypes from 'prop-types';
 import { Input } from 'reactstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import moment from 'moment';
+
+import Messages from './Messages';
 
 const styles = {
-  container: { display: 'flex', color: '#FFFFFF', flexDirection: 'column' },
-  messages: { flex: 1 },
+  container: {
+    display: 'flex', color: '#FFFFFF', flexDirection: 'column', overflow: 'hidden',
+  },
   writer: {
     margin: 20,
     display: 'flex',
@@ -32,9 +36,9 @@ const styles = {
   },
 };
 
-const Messenger = ({ style }) => (
+const Messenger = ({ style, messages }) => (
   <div style={{ ...style, ...styles.container }}>
-    <div style={styles.messages}>messages</div>
+    <Messages messages={messages} />
     <div style={styles.writer}>
       <Input type="textarea" style={styles.input} rows="1" />
       <FontAwesomeIcon icon="paper-plane" style={styles.sendButton} />
@@ -44,15 +48,23 @@ const Messenger = ({ style }) => (
 
 Messenger.propTypes = {
   style: PropTypes.objectOf(PropTypes.oneOfType([PropTypes.string, PropTypes.number])),
+  messages: PropTypes.arrayOf(
+    PropTypes.objectOf(PropTypes.oneOfType([PropTypes.string, PropTypes.number])),
+  ).isRequired,
 };
 
 Messenger.defaultProps = {
   style: {},
 };
 
-const mapDispatchToProps = () => ({});
+const mapStateToProps = state => ({
+  messages: state.board.messages.map(message => ({
+    ...message,
+    time: moment(message.time).fromNow(),
+  })),
+});
 
-const mapStateToProps = () => ({});
+const mapDispatchToProps = () => ({});
 
 export default compose(
   connect(

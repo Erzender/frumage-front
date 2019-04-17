@@ -27,7 +27,10 @@ const persistConfig = {
 const persistedReducer = persistReducer(persistConfig, persist);
 
 const rootReducer = combineReducers({
-  root, persistedReducer, account, board,
+  root,
+  account,
+  board,
+  persistedReducer,
 });
 
 /* eslint-disable no-underscore-dangle */
@@ -54,10 +57,11 @@ const App = withNamespaces()(() => (
       left: 0,
       right: 0,
       bottom: 0,
+      overflow: 'hidden',
     }}
   >
     <Router>
-      <div style={{ display: 'flex', flex: 1 }}>
+      <div style={{ display: 'flex', flex: 1, overflow: 'hidden' }}>
         <Route exact path="/" component={Board} />
         <Route path="/register" component={RegisterForm} />
         <Route path="/login" component={LoginForm} />
