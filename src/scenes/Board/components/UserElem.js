@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 const styles = {
   container: {
     padding: 5,
+    paddingLeft: 10,
     flexDirection: 'row',
     flex: 1,
     display: 'flex',

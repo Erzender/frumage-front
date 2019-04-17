@@ -8,6 +8,7 @@ import { getTopics } from '../duck';
 import Header from './Header';
 import LeftMenu from './LeftMenu';
 import RightMenu from './RightMenu';
+import Messenger from './Messenger';
 
 const styles = {
   container: {
@@ -24,8 +25,8 @@ const styles = {
     flexDirection: 'row',
     overflow: 'hidden',
   },
-  left: { display: 'flex', flex: 2, overflow: 'hidden' },
-  right: { display: 'flex', flex: 2 },
+  left: { display: 'flex', width: 250, overflow: 'hidden' },
+  right: { display: 'flex', width: 250, overflow: 'hidden' },
   content: { display: 'flex', flex: 8 },
 };
 
@@ -41,7 +42,7 @@ class Board extends React.Component {
         <Header style={styles.header} />
         <div style={styles.main}>
           <LeftMenu style={styles.left} />
-          <div style={styles.content}>loul</div>
+          <Messenger style={styles.content} />
           <RightMenu style={styles.right} />
         </div>
       </div>
