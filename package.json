@@ -25,9 +25,9 @@
     "redux-thunk": "^2.3.0"
   },
   "scripts": {
-    "start": "node node_modules/react-scripts/bin/react-scripts.js start",
-    "build": "node node_modules/react-scripts/bin/react-scripts.js build",
-    "eject": "node node_modules/react-scripts/bin/react-scripts.js eject",
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "eject": "react-scripts eject",
     "lint": "node_modules/.bin/eslint --ext .js ./ --fix"
   },
   "eslintConfig": {
@@ -40,6 +40,7 @@
     "not op_mini all"
   ],
   "devDependencies": {
+    "eslint": "^5.16.0",
     "eslint-config-airbnb": "^17.1.0",
     "eslint-plugin-import": "^2.16.0",
     "eslint-plugin-jsx-a11y": "^6.2.1",
