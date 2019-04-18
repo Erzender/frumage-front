@@ -70,13 +70,13 @@ const Messages = ({ messages }) => (
             {message.pic !== '' && (
               <img
                 style={{ ...styles.pic, top: -104, position: 'relative' }}
-                src={message.pic}
+                src={message.authorPicture}
                 alt="sender"
               />
             )}
           </div>
-          <div style={styles.author}>{message.author}</div>
-          <div style={styles.rank}>{message.rank}</div>
+          <div style={styles.author}>{message.authorName}</div>
+          <div style={styles.rank}>{message.authorRank}</div>
           <div style={styles.time}>{message.time}</div>
         </div>
         <div style={styles.message}>
@@ -90,7 +90,7 @@ const Messages = ({ messages }) => (
               fontFamily: '"Lucida Sans Unicode", "Lucida Grande", sans-serif',
             }}
           >
-            {message.text}
+            {message.content}
           </pre>
         </div>
       </div>

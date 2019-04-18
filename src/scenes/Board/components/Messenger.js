@@ -10,7 +10,10 @@ import Messages from './Messages';
 
 const styles = {
   container: {
-    display: 'flex', color: '#FFFFFF', flexDirection: 'column', overflow: 'hidden',
+    display: 'flex',
+    color: '#FFFFFF',
+    flexDirection: 'column',
+    overflow: 'hidden',
   },
   writer: {
     margin: 20,
@@ -58,9 +61,9 @@ Messenger.defaultProps = {
 };
 
 const mapStateToProps = state => ({
-  messages: state.board.messages.map(message => ({
-    ...message,
-    time: moment(message.time).fromNow(),
+  messages: Object.keys(state.board.messages).map(message => ({
+    ...state.board.messages[message],
+    time: moment(state.board.messages[message].createdAt).fromNow(),
   })),
 });
 

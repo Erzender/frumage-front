@@ -51,29 +51,37 @@ const styles = {
   },
 };
 
-const ThreadElem = ({ node }) => (
-  <div
-    className="listElem noselect"
-    style={node.selected ? { ...styles.container, ...styles.selected } : styles.container}
-  >
-    <FontAwesomeIcon
-      icon="scroll"
-      style={{
-        ...styles.icon,
-        backgroundColor: node.recent ? '#FF0000' : node.selected ? '#FFFFFF' : '#777777',
-      }}
-    />
-    <div style={styles.text}>
-      <h5 style={styles.title}>{node.name}</h5>
-      <div style={styles.desc}>{node.description}</div>
+const ThreadElem = ({ node, click }) => {
+  const onClick = () => click(node.id);
+  return (
+    <div
+      role="button"
+      tabIndex={0}
+      className="listElem noselect"
+      style={node.selected ? { ...styles.container, ...styles.selected } : styles.container}
+      onClick={onClick}
+      onKeyPress={() => {}}
+    >
+      <FontAwesomeIcon
+        icon="scroll"
+        style={{
+          ...styles.icon,
+          backgroundColor: node.recent ? '#FF0000' : node.selected ? '#FFFFFF' : '#777777',
+        }}
+      />
+      <div style={styles.text}>
+        <h5 style={styles.title}>{node.name}</h5>
+        <div style={styles.desc}>{node.description}</div>
+      </div>
     </div>
-  </div>
-);
+  );
+};
 
 ThreadElem.propTypes = {
   node: PropTypes.objectOf(
     PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool]),
   ).isRequired,
+  click: PropTypes.func.isRequired,
 };
 
 export default ThreadElem;

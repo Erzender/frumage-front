@@ -11,6 +11,10 @@ export const {
   threadsRequest,
   threadsFailure,
   threadsSuccess,
+  selectThread,
+  messagesRequest,
+  messagesFailure,
+  messagesSuccess,
 } = createActions({
   TOPICS_REQUEST: () => ({}),
   TOPICS_FAILURE: () => ({}),
@@ -19,6 +23,10 @@ export const {
   THREADS_REQUEST: () => ({}),
   THREADS_FAILURE: () => ({}),
   THREADS_SUCCESS: threads => ({ threads }),
+  SELECT_THREAD: id => ({ id }),
+  MESSAGES_REQUEST: () => ({}),
+  MESSAGES_FAILURE: () => ({}),
+  MESSAGES_SUCCESS: messages => ({ messages }),
 });
 
 export const getTopics = token => async (dispatch) => {
@@ -50,20 +58,27 @@ export const getThreads = (token, id) => async (dispatch) => {
   }
 };
 
+export const getMessages = (token, id) => async (dispatch) => {
+  dispatch(selectThread(id));
+  dispatch(messagesRequest());
+  try {
+    const ret = await service.fetchMessages(token, id);
+    if (ret.messages) {
+      dispatch(messagesSuccess(ret.messages));
+    } else {
+      dispatch(messagesFailure(ret));
+    }
+  } catch (err) {
+    dispatch(messagesFailure(err));
+  }
+};
+
 const initialBoardState = {
   topics: {},
   selectedTopic: null,
   threads: {},
-  messages: [
-    {
-      author: 'Erzender',
-      pic: 'https://www.brick-a-brack.com/users/image/800/600/?1550004299',
-      rank: 'User',
-      text: 'Je connais le kung fu.',
-      time: '2019-03-23T14:34:20.940Z',
-      id: 4,
-    },
-  ],
+  selectedThread: null,
+  messages: {},
 };
 
 export const board = handleActions(
@@ -73,7 +88,12 @@ export const board = handleActions(
       ...state,
       threads: serializer(threads),
     }),
+    [messagesSuccess]: (state, { payload: { messages } }) => ({
+      ...state,
+      messages: serializer(messages),
+    }),
     [selectTopic]: (state, { payload: { id } }) => ({ ...state, selectedTopic: id.toString() }),
+    [selectThread]: (state, { payload: { id } }) => ({ ...state, selectedThread: id.toString() }),
   },
   initialBoardState,
 );

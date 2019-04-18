@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import { withNamespaces } from 'react-i18next';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-import { getThreads } from '../duck';
+import { getThreads, getMessages } from '../duck';
 import TopicElem from './TopicElem';
 import ThreadElem from './ThreadElem';
 import List from '../../componentsReuse/List';
@@ -32,9 +32,10 @@ const styles = {
 };
 
 const LeftMenu = ({
-  t, token, style, topics, clickTopic, threads,
+  t, token, style, topics, clickTopic, threads, clickThread,
 }) => {
   const clickTop = id => clickTopic(token, id);
+  const clickThr = id => clickThread(token, id);
   return (
     <div style={{ ...style, ...styles.container }}>
       <div style={styles.box}>
@@ -59,7 +60,7 @@ const LeftMenu = ({
             }}
           />
         </h4>
-        <List Elem={ThreadElem} nodes={threads} />
+        <List Elem={ThreadElem} nodes={threads} click={clickThr} />
       </div>
     </div>
   );
@@ -76,6 +77,7 @@ LeftMenu.propTypes = {
   ).isRequired,
   style: PropTypes.objectOf(PropTypes.oneOfType([PropTypes.string, PropTypes.number])),
   clickTopic: PropTypes.func.isRequired,
+  clickThread: PropTypes.func.isRequired,
 };
 
 LeftMenu.defaultProps = {
@@ -85,6 +87,7 @@ LeftMenu.defaultProps = {
 
 const mapDispatchToProps = dispatch => ({
   clickTopic: (token, id) => dispatch(getThreads(token, id)),
+  clickThread: (token, id) => dispatch(getMessages(token, id)),
 });
 
 const mapStateToProps = state => ({
@@ -98,7 +101,7 @@ const mapStateToProps = state => ({
   })),
   threads: Object.keys(state.board.threads).map(thread => ({
     ...state.board.threads[thread],
-    selected: false,
+    selected: state.board.selectedThread && state.board.selectedThread === thread,
     recent: false,
   })),
 });
