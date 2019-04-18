@@ -79,7 +79,6 @@ const newTopic = async (token, name, description, read, write) => {
 };
 
 const fetchThreads = async (token, topic) => {
-  console.log(token, topic);
   try {
     const res = await fetch(`${config.apiUrl}/threads`, {
       method: 'GET',

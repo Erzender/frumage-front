@@ -32,7 +32,7 @@ const styles = {
 };
 
 const LeftMenu = ({
-  t, token, style, topics, clickTopic,
+  t, token, style, topics, clickTopic, threads,
 }) => {
   const clickTop = id => clickTopic(token, id);
   return (
@@ -59,25 +59,7 @@ const LeftMenu = ({
             }}
           />
         </h4>
-        <List
-          Elem={ThreadElem}
-          nodes={[
-            {
-              id: '1',
-              selected: true,
-              recent: false,
-              title: 'test',
-              desc: 'blblblblblbl',
-            },
-            {
-              id: '2',
-              selected: false,
-              recent: false,
-              title: 'test',
-              desc: 'blblblblblbl',
-            },
-          ]}
-        />
+        <List Elem={ThreadElem} nodes={threads} />
       </div>
     </div>
   );
@@ -87,6 +69,9 @@ LeftMenu.propTypes = {
   t: PropTypes.func.isRequired,
   token: PropTypes.string,
   topics: PropTypes.arrayOf(
+    PropTypes.objectOf(PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool])),
+  ).isRequired,
+  threads: PropTypes.arrayOf(
     PropTypes.objectOf(PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool])),
   ).isRequired,
   style: PropTypes.objectOf(PropTypes.oneOfType([PropTypes.string, PropTypes.number])),
@@ -110,6 +95,11 @@ const mapStateToProps = state => ({
     selected: state.board.selectedTopic && state.board.selectedTopic === topic,
     recent: false,
     id: state.board.topics[topic].id,
+  })),
+  threads: Object.keys(state.board.threads).map(thread => ({
+    ...state.board.threads[thread],
+    selected: false,
+    recent: false,
   })),
 });
 

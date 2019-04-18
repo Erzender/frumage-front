@@ -43,7 +43,6 @@ export const getThreads = (token, id) => async (dispatch) => {
     if (ret.threads) {
       dispatch(threadsSuccess(ret.threads));
     } else {
-      console.log(ret);
       dispatch(threadsFailure(ret));
     }
   } catch (err) {
@@ -54,7 +53,7 @@ export const getThreads = (token, id) => async (dispatch) => {
 const initialBoardState = {
   topics: {},
   selectedTopic: null,
-  threads: [],
+  threads: {},
   messages: [
     {
       author: 'Erzender',
@@ -70,6 +69,10 @@ const initialBoardState = {
 export const board = handleActions(
   {
     [topicsSuccess]: (state, { payload: { topics } }) => ({ ...state, topics: serializer(topics) }),
+    [threadsSuccess]: (state, { payload: { threads } }) => ({
+      ...state,
+      threads: serializer(threads),
+    }),
     [selectTopic]: (state, { payload: { id } }) => ({ ...state, selectedTopic: id.toString() }),
   },
   initialBoardState,

@@ -64,8 +64,8 @@ const ThreadElem = ({ node }) => (
       }}
     />
     <div style={styles.text}>
-      <h5 style={styles.title}>{node.title}</h5>
-      <div style={styles.desc}>{node.desc}</div>
+      <h5 style={styles.title}>{node.name}</h5>
+      <div style={styles.desc}>{node.description}</div>
     </div>
   </div>
 );
