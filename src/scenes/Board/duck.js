@@ -2,10 +2,18 @@ import { handleActions, createActions } from 'redux-actions';
 
 import service from '../../service';
 
-export const { topicsRequest, topicsFailure, topicsSuccess } = createActions({
+export const {
+  topicsRequest,
+  topicsFailure,
+  topicsSuccess,
+  openModal,
+  closeModal,
+} = createActions({
   TOPICS_REQUEST: () => ({}),
   TOPICS_FAILURE: () => ({}),
   TOPICS_SUCCESS: topics => ({ topics }),
+  OPEN_MODAL: () => ({}),
+  CLOSE_MODAL: () => ({}),
 });
 
 export const getTopics = token => async (dispatch) => {
@@ -23,6 +31,11 @@ export const getTopics = token => async (dispatch) => {
 };
 
 const initialBoardState = {
+  isModalOpen: false,
+  modal: {
+    title: '',
+    description: '',
+  },
   topics: [],
   threads: [],
   messages: [
@@ -40,6 +53,9 @@ const initialBoardState = {
 export const board = handleActions(
   {
     [topicsSuccess]: (state, { payload: { topics } }) => ({ ...state, topics }),
+    [openModal]: state => ({ ...state, isModalOpen: true }),
+    [closeModal]: state => ({ ...state, isModalOpen: false }),
+    // [closeModal]: state => ({ ...state, isModalOpen: false }),
   },
   initialBoardState,
 );

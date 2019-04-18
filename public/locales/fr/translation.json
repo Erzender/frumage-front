@@ -20,5 +20,15 @@
     "TOPICS": "SUJETS",
     "THREADS": "CONVERSATIONS",
     "ROOM": "CONNECTES"
+  },
+  "modal": {
+    "topicHeader": "Nouveau sujet",
+    "threadHeader": "Nouvelle conversation",
+    "topicName": "Sujet",
+    "topicDesc": "Description du sujet",
+    "threadName": "Nom de la conversation",
+    "threadDesc": "Description de la conversation",
+    "create": "Créer",
+    "cancel": "Annuler"
   }
 }

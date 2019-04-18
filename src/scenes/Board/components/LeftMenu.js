@@ -7,6 +7,8 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import TopicElem from './TopicElem';
 import ThreadElem from './ThreadElem';
+import CreateModal from './CreateModal';
+import { openModal, closeModal } from '../duck';
 import List from '../../componentsReuse/List';
 
 const styles = {
@@ -30,18 +32,22 @@ const styles = {
   },
 };
 
-const LeftMenu = ({ t, style, topics }) => (
+const LeftMenu = ({
+  t, style, topics, openModalClick, closeModalClick, isModalOpen,
+}) => (
   <div style={{ ...style, ...styles.container }}>
     <div style={styles.box}>
       <h4 className="noselect" style={styles.title}>
         {t('board.TOPICS')}
         <FontAwesomeIcon
+          onClick={openModalClick}
           icon="plus-circle"
           style={{
             ...styles.plus,
           }}
         />
       </h4>
+      <CreateModal type="thread" isModalOpen={isModalOpen} onClose={closeModalClick} t={t} />
       <List Elem={TopicElem} nodes={topics} />
     </div>
     <div style={styles.box}>
@@ -83,13 +89,29 @@ LeftMenu.propTypes = {
     PropTypes.objectOf(PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool])),
   ).isRequired,
   style: PropTypes.objectOf(PropTypes.oneOfType([PropTypes.string, PropTypes.number])),
+  modal: PropTypes.shape({
+    // isModalOpen: PropTypes.bool,
+    title: PropTypes.string,
+    description: PropTypes.string,
+  }),
+  isModalOpen: PropTypes.bool,
+  openModalClick: PropTypes.func.isRequired,
+  closeModalClick: PropTypes.func.isRequired,
 };
 
 LeftMenu.defaultProps = {
   style: {},
+  isModalOpen: false,
+  modal: {
+    title: '',
+    description: '',
+  },
 };
 
-const mapDispatchToProps = () => ({});
+const mapDispatchToProps = dispatch => ({
+  openModalClick: () => dispatch(openModal()),
+  closeModalClick: () => dispatch(closeModal()),
+});
 
 const mapStateToProps = state => ({
   topics: state.board.topics.map(topic => ({
@@ -99,6 +121,8 @@ const mapStateToProps = state => ({
     recent: false,
     id: topic.id,
   })),
+  modal: state.board.modal,
+  isModalOpen: state.board.isModalOpen,
 });
 
 export default compose(

@@ -19,5 +19,15 @@
     "TOPICS": "TOPICS",
     "THREADS": "THREADS",
     "ROOM": "ROOM"
+  },
+  "modal": {
+    "topicHeader": "New topic",
+    "topicName": "Topic name",
+    "topicDesc": "Topic description",
+    "threadHeader": "New thread",
+    "threadName": "Thread name",
+    "threadDesc": "Thread description",
+    "create": "Create",
+    "cancel": "Cancel"
   }
 }
