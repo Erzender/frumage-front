@@ -63,7 +63,7 @@ const styles = {
 const Messages = ({ messages }) => (
   <div style={styles.container}>
     {messages.map(message => (
-      <div style={styles.messageContainer}>
+      <div key={message.id} style={styles.messageContainer}>
         <div style={styles.meta}>
           <div style={styles.pic}>
             <FontAwesomeIcon icon="cheese" style={styles.icon} />

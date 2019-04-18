@@ -15,6 +15,7 @@ export const getTopics = token => async (dispatch) => {
     if (ret.topics) {
       dispatch(topicsSuccess(ret.topics));
     } else {
+      console.log(ret);
       dispatch(topicsFailure(ret));
     }
   } catch (err) {

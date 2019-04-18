@@ -56,7 +56,7 @@ const initialState = {
   isLogged: false,
   name: '',
   password: '',
-  message: { status: 0, response: '', visible: false },
+  message: { response: '', visible: false },
 };
 
 export const account = handleActions(
@@ -76,18 +76,18 @@ export const account = handleActions(
     [loginFailure]: (state, { payload: { err } }) => ({
       ...state,
       isLoading: false,
-      message: { ...err, visible: true },
+      message: { response: err, visible: true },
     }),
     [registerRequest]: state => ({ ...state, isLoading: true }),
     [registerFailure]: (state, { payload: { err } }) => ({
       ...state,
       isLoading: false,
-      message: { ...err, visible: true },
+      message: { response: err, visible: true },
     }),
     [registerSuccess]: (state, { payload: { ret } }) => ({
       ...state,
       isLoading: false,
-      message: { ...ret, visible: true },
+      message: { response: ret, visible: true },
       registered: true,
     }),
     [toRegister]: state => ({ ...state, registered: false }),

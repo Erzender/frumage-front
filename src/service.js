@@ -13,7 +13,7 @@ const login = async (name, password) => {
       }),
     });
     if (res.status !== 200) {
-      return { status: res.status, response: await res.text() };
+      return await res.text();
     }
     return await res.json();
   } catch (err) {
@@ -34,7 +34,7 @@ const register = async (name, password) => {
       }),
     });
     if (res.status !== 200) {
-      return { status: res.status, response: await res.text() };
+      return await res.text();
     }
     return await res.json();
   } catch (err) {
@@ -49,7 +49,7 @@ const fetchTopics = async (token) => {
       headers: { 'Content-Type': 'application/json', token: token || '' },
     });
     if (res.status !== 200) {
-      return { status: res.status, response: await res.text() };
+      return await res.text();
     }
     return await res.json();
   } catch (err) {
