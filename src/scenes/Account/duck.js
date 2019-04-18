@@ -41,10 +41,11 @@ export const register = (name, password) => async (dispatch) => {
   dispatch(registerRequest());
   try {
     const ret = await service.register(name, password);
-    if (!ret.success) {
-      throw ret;
+    if (ret.success) {
+      dispatch(registerSuccess(ret));
+    } else {
+      dispatch(registerFailure(ret));
     }
-    dispatch(registerSuccess(ret));
   } catch (err) {
     dispatch(registerFailure(err));
   }
@@ -87,7 +88,7 @@ export const account = handleActions(
     [registerSuccess]: (state, { payload: { ret } }) => ({
       ...state,
       isLoading: false,
-      message: { response: ret, visible: true },
+      message: { response: ret.message, visible: true },
       registered: true,
     }),
     [toRegister]: state => ({ ...state, registered: false }),
