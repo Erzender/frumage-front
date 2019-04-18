@@ -51,29 +51,37 @@ const styles = {
   },
 };
 
-const TopicElem = ({ node }) => (
-  <div
-    className="listElem noselect"
-    style={node.selected ? { ...styles.container, ...styles.selected } : styles.container}
-  >
-    <FontAwesomeIcon
-      icon="cheese"
-      style={{
-        ...styles.icon,
-        backgroundColor: node.recent ? '#FF0000' : node.selected ? '#FFFFFF' : '#777777',
-      }}
-    />
-    <div style={styles.text}>
-      <h5 style={styles.title}>{node.title}</h5>
-      <div style={styles.desc}>{node.desc}</div>
+const TopicElem = ({ node, click }) => {
+  const onClick = () => click(node.id);
+  return (
+    <div
+      role="button"
+      tabIndex={0}
+      className="listElem noselect"
+      style={node.selected ? { ...styles.container, ...styles.selected } : styles.container}
+      onClick={onClick}
+      onKeyPress={() => {}}
+    >
+      <FontAwesomeIcon
+        icon="cheese"
+        style={{
+          ...styles.icon,
+          backgroundColor: node.recent ? '#FF0000' : node.selected ? '#FFFFFF' : '#777777',
+        }}
+      />
+      <div style={styles.text}>
+        <h5 style={styles.title}>{node.title}</h5>
+        <div style={styles.desc}>{node.desc}</div>
+      </div>
     </div>
-  </div>
-);
+  );
+};
 
 TopicElem.propTypes = {
   node: PropTypes.objectOf(
     PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool]),
   ).isRequired,
+  click: PropTypes.func.isRequired,
 };
 
 export default TopicElem;

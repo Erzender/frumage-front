@@ -57,8 +57,63 @@ const fetchTopics = async (token) => {
   }
 };
 
+const newTopic = async (token, name, description, read, write) => {
+  try {
+    const res = await fetch(`${config.apiUrl}/messages`, {
+      method: 'GET',
+      headers: { 'Content-Type': 'application/json', token: token || '' },
+      body: {
+        name,
+        description,
+        read,
+        write,
+      },
+    });
+    if (res.status !== 200) {
+      return await res.text();
+    }
+    return await res.json();
+  } catch (err) {
+    return 'fetch error';
+  }
+};
+
+const fetchThreads = async (token, topic) => {
+  console.log(token, topic);
+  try {
+    const res = await fetch(`${config.apiUrl}/threads`, {
+      method: 'GET',
+      headers: { 'Content-Type': 'application/json', token: token || '', topic },
+    });
+    if (res.status !== 200) {
+      return await res.text();
+    }
+    return await res.json();
+  } catch (err) {
+    return 'fetch error';
+  }
+};
+
+const fetchMessages = async (token, thread) => {
+  try {
+    const res = await fetch(`${config.apiUrl}/messages`, {
+      method: 'GET',
+      headers: { 'Content-Type': 'application/json', token: token || '', thread },
+    });
+    if (res.status !== 200) {
+      return await res.text();
+    }
+    return await res.json();
+  } catch (err) {
+    return 'fetch error';
+  }
+};
+
 export default {
   login,
   register,
   fetchTopics,
+  newTopic,
+  fetchThreads,
+  fetchMessages,
 };

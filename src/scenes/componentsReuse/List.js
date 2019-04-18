@@ -10,10 +10,10 @@ const styles = {
   },
 };
 
-const List = ({ Elem, nodes }) => (
+const List = ({ Elem, nodes, click }) => (
   <div style={styles.list}>
     {nodes.map(node => (
-      <Elem key={node.id} node={node} />
+      <Elem key={node.id} node={node} click={click} />
     ))}
   </div>
 );
@@ -23,6 +23,11 @@ List.propTypes = {
   nodes: PropTypes.arrayOf(
     PropTypes.objectOf(PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool])),
   ).isRequired,
+  click: PropTypes.func,
+};
+
+List.defaultProps = {
+  click: () => {},
 };
 
 export default List;

@@ -1,11 +1,24 @@
 import { handleActions, createActions } from 'redux-actions';
 
+import serializer from '../../utils/serializer';
 import service from '../../service';
 
-export const { topicsRequest, topicsFailure, topicsSuccess } = createActions({
+export const {
+  topicsRequest,
+  topicsFailure,
+  topicsSuccess,
+  selectTopic,
+  threadsRequest,
+  threadsFailure,
+  threadsSuccess,
+} = createActions({
   TOPICS_REQUEST: () => ({}),
   TOPICS_FAILURE: () => ({}),
   TOPICS_SUCCESS: topics => ({ topics }),
+  SELECT_TOPIC: id => ({ id }),
+  THREADS_REQUEST: () => ({}),
+  THREADS_FAILURE: () => ({}),
+  THREADS_SUCCESS: threads => ({ threads }),
 });
 
 export const getTopics = token => async (dispatch) => {
@@ -15,7 +28,6 @@ export const getTopics = token => async (dispatch) => {
     if (ret.topics) {
       dispatch(topicsSuccess(ret.topics));
     } else {
-      console.log(ret);
       dispatch(topicsFailure(ret));
     }
   } catch (err) {
@@ -23,8 +35,25 @@ export const getTopics = token => async (dispatch) => {
   }
 };
 
+export const getThreads = (token, id) => async (dispatch) => {
+  dispatch(selectTopic(id));
+  dispatch(threadsRequest());
+  try {
+    const ret = await service.fetchThreads(token, id);
+    if (ret.threads) {
+      dispatch(threadsSuccess(ret.threads));
+    } else {
+      console.log(ret);
+      dispatch(threadsFailure(ret));
+    }
+  } catch (err) {
+    dispatch(threadsFailure(err));
+  }
+};
+
 const initialBoardState = {
-  topics: [],
+  topics: {},
+  selectedTopic: null,
   threads: [],
   messages: [
     {
@@ -40,7 +69,8 @@ const initialBoardState = {
 
 export const board = handleActions(
   {
-    [topicsSuccess]: (state, { payload: { topics } }) => ({ ...state, topics }),
+    [topicsSuccess]: (state, { payload: { topics } }) => ({ ...state, topics: serializer(topics) }),
+    [selectTopic]: (state, { payload: { id } }) => ({ ...state, selectedTopic: id.toString() }),
   },
   initialBoardState,
 );

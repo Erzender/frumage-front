@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 import { withNamespaces } from 'react-i18next';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
+import { getThreads } from '../duck';
 import TopicElem from './TopicElem';
 import ThreadElem from './ThreadElem';
 import List from '../../componentsReuse/List';
@@ -30,74 +31,85 @@ const styles = {
   },
 };
 
-const LeftMenu = ({ t, style, topics }) => (
-  <div style={{ ...style, ...styles.container }}>
-    <div style={styles.box}>
-      <h4 className="noselect" style={styles.title}>
-        {t('board.TOPICS')}
-        <FontAwesomeIcon
-          icon="plus-circle"
-          style={{
-            ...styles.plus,
-          }}
+const LeftMenu = ({
+  t, token, style, topics, clickTopic,
+}) => {
+  const clickTop = id => clickTopic(token, id);
+  return (
+    <div style={{ ...style, ...styles.container }}>
+      <div style={styles.box}>
+        <h4 className="noselect" style={styles.title}>
+          {t('board.TOPICS')}
+          <FontAwesomeIcon
+            icon="plus-circle"
+            style={{
+              ...styles.plus,
+            }}
+          />
+        </h4>
+        <List Elem={TopicElem} nodes={topics} click={clickTop} />
+      </div>
+      <div style={styles.box}>
+        <h4 style={styles.title}>
+          {t('board.THREADS')}
+          <FontAwesomeIcon
+            icon="plus-circle"
+            style={{
+              ...styles.plus,
+            }}
+          />
+        </h4>
+        <List
+          Elem={ThreadElem}
+          nodes={[
+            {
+              id: '1',
+              selected: true,
+              recent: false,
+              title: 'test',
+              desc: 'blblblblblbl',
+            },
+            {
+              id: '2',
+              selected: false,
+              recent: false,
+              title: 'test',
+              desc: 'blblblblblbl',
+            },
+          ]}
         />
-      </h4>
-      <List Elem={TopicElem} nodes={topics} />
+      </div>
     </div>
-    <div style={styles.box}>
-      <h4 style={styles.title}>
-        {t('board.THREADS')}
-        <FontAwesomeIcon
-          icon="plus-circle"
-          style={{
-            ...styles.plus,
-          }}
-        />
-      </h4>
-      <List
-        Elem={ThreadElem}
-        nodes={[
-          {
-            id: '1',
-            selected: true,
-            recent: false,
-            title: 'test',
-            desc: 'blblblblblbl',
-          },
-          {
-            id: '2',
-            selected: false,
-            recent: false,
-            title: 'test',
-            desc: 'blblblblblbl',
-          },
-        ]}
-      />
-    </div>
-  </div>
-);
+  );
+};
 
 LeftMenu.propTypes = {
   t: PropTypes.func.isRequired,
+  token: PropTypes.string,
   topics: PropTypes.arrayOf(
     PropTypes.objectOf(PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool])),
   ).isRequired,
   style: PropTypes.objectOf(PropTypes.oneOfType([PropTypes.string, PropTypes.number])),
+  clickTopic: PropTypes.func.isRequired,
 };
 
 LeftMenu.defaultProps = {
   style: {},
+  token: null,
 };
 
-const mapDispatchToProps = () => ({});
+const mapDispatchToProps = dispatch => ({
+  clickTopic: (token, id) => dispatch(getThreads(token, id)),
+});
 
 const mapStateToProps = state => ({
-  topics: state.board.topics.map(topic => ({
-    title: topic.name,
-    desc: topic.description,
-    selected: false,
+  token: state.persistedReducer.token,
+  topics: Object.keys(state.board.topics).map(topic => ({
+    title: state.board.topics[topic].name,
+    desc: state.board.topics[topic].description,
+    selected: state.board.selectedTopic && state.board.selectedTopic === topic,
     recent: false,
-    id: topic.id,
+    id: state.board.topics[topic].id,
   })),
 });
 
