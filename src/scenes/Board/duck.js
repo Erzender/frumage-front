@@ -1,5 +1,6 @@
 import { handleActions, createActions } from 'redux-actions';
 
+import { serialize, addToObj } from '../../utils/serializer';
 import service from '../../service';
 
 export const {
@@ -8,12 +9,36 @@ export const {
   topicsSuccess,
   openModal,
   closeModal,
+  selectTopic,
+  threadsRequest,
+  threadsFailure,
+  threadsSuccess,
+  selectThread,
+  messagesRequest,
+  messagesFailure,
+  messagesSuccess,
+  sendRequest,
+  sendFailure,
+  sendSuccess,
+  messageType,
 } = createActions({
   TOPICS_REQUEST: () => ({}),
   TOPICS_FAILURE: () => ({}),
   TOPICS_SUCCESS: topics => ({ topics }),
   OPEN_MODAL: () => ({}),
   CLOSE_MODAL: () => ({}),
+  SELECT_TOPIC: id => ({ id }),
+  THREADS_REQUEST: () => ({}),
+  THREADS_FAILURE: () => ({}),
+  THREADS_SUCCESS: threads => ({ threads }),
+  SELECT_THREAD: id => ({ id }),
+  MESSAGES_REQUEST: () => ({}),
+  MESSAGES_FAILURE: () => ({}),
+  MESSAGES_SUCCESS: messages => ({ messages }),
+  SEND_REQUEST: () => ({}),
+  SEND_FAILURE: () => ({}),
+  SEND_SUCCESS: message => ({ message }),
+  MESSAGE_TYPE: value => ({ value }),
 });
 
 export const getTopics = token => async (dispatch) => {
@@ -30,32 +55,86 @@ export const getTopics = token => async (dispatch) => {
   }
 };
 
+export const getThreads = (token, id) => async (dispatch) => {
+  dispatch(selectTopic(id));
+  dispatch(threadsRequest());
+  try {
+    const ret = await service.fetchThreads(token, id);
+    if (ret.threads) {
+      dispatch(threadsSuccess(ret.threads));
+    } else {
+      dispatch(threadsFailure(ret));
+    }
+  } catch (err) {
+    dispatch(threadsFailure(err));
+  }
+};
+
+export const getMessages = (token, id) => async (dispatch) => {
+  dispatch(selectThread(id));
+  dispatch(messagesRequest());
+  try {
+    const ret = await service.fetchMessages(token, id);
+    if (ret.messages) {
+      dispatch(messagesSuccess(ret.messages));
+    } else {
+      dispatch(messagesFailure(ret));
+    }
+  } catch (err) {
+    dispatch(messagesFailure(err));
+  }
+};
+
+export const sendMessage = (token, id, message) => async (dispatch) => {
+  if (message === '' || id === null) {
+    return;
+  }
+  dispatch(selectThread(id));
+  dispatch(sendRequest());
+  try {
+    const ret = await service.newMessage(token, id, message);
+    if (ret.message) {
+      dispatch(sendSuccess(ret.message));
+    } else {
+      dispatch(sendFailure(ret));
+    }
+  } catch (err) {
+    dispatch(sendFailure(err));
+  }
+};
+
 const initialBoardState = {
-  isModalOpen: false,
-  modal: {
-    title: '',
-    description: '',
-  },
-  topics: [],
-  threads: [],
-  messages: [
-    {
-      author: 'Erzender',
-      pic: 'https://www.brick-a-brack.com/users/image/800/600/?1550004299',
-      rank: 'User',
-      text: 'Je connais le kung fu.',
-      time: '2019-03-23T14:34:20.940Z',
-      id: 4,
-    },
-  ],
+  topics: {},
+  selectedTopic: null,
+  threads: {},
+  selectedThread: null,
+  messages: {},
+  messageInput: '',
 };
 
 export const board = handleActions(
   {
-    [topicsSuccess]: (state, { payload: { topics } }) => ({ ...state, topics }),
+    // [topicsSuccess]: (state, { payload: { topics } }) => ({ ...state, topics }),
     [openModal]: state => ({ ...state, isModalOpen: true }),
     [closeModal]: state => ({ ...state, isModalOpen: false }),
     // [closeModal]: state => ({ ...state, isModalOpen: false }),
+    [topicsSuccess]: (state, { payload: { topics } }) => ({ ...state, topics: serialize(topics) }),
+    [threadsSuccess]: (state, { payload: { threads } }) => ({
+      ...state,
+      threads: serialize(threads),
+    }),
+    [messagesSuccess]: (state, { payload: { messages } }) => ({
+      ...state,
+      messages: serialize(messages),
+    }),
+    [selectTopic]: (state, { payload: { id } }) => ({ ...state, selectedTopic: id.toString() }),
+    [selectThread]: (state, { payload: { id } }) => ({ ...state, selectedThread: id.toString() }),
+    [messageType]: (state, { payload: { value } }) => ({ ...state, messageInput: value }),
+    [sendRequest]: state => ({ ...state, messageInput: '' }),
+    [sendSuccess]: (state, { payload: { message } }) => ({
+      ...state,
+      messages: addToObj(state.messages, message),
+    }),
   },
   initialBoardState,
 );

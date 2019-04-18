@@ -42,14 +42,31 @@ code {
 
 .noselect {
   -webkit-touch-callout: none; /* iOS Safari */
-    -webkit-user-select: none; /* Safari */
-     -khtml-user-select: none; /* Konqueror HTML */
-       -moz-user-select: none; /* Firefox */
-        -ms-user-select: none; /* Internet Explorer/Edge */
-            user-select: none; /* Non-prefixed version, currently
+  -webkit-user-select: none; /* Safari */
+  -khtml-user-select: none; /* Konqueror HTML */
+  -moz-user-select: none; /* Firefox */
+  -ms-user-select: none; /* Internet Explorer/Edge */
+  user-select: none; /* Non-prefixed version, currently
                                   supported by Chrome and Opera */
 }
 
 .listElem:hover {
   background-color: #333333;
+}
+
+button {
+  background-color: transparent;
+}
+
+button:active {
+  border-style: none;
+}
+
+button:target {
+  border-style: none;
+}
+
+button::-moz-focus-inner {
+  border: 0;
+  outline: none;
 }

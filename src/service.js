@@ -13,7 +13,7 @@ const login = async (name, password) => {
       }),
     });
     if (res.status !== 200) {
-      return { status: res.status, response: await res.text() };
+      return await res.text();
     }
     return await res.json();
   } catch (err) {
@@ -34,7 +34,7 @@ const register = async (name, password) => {
       }),
     });
     if (res.status !== 200) {
-      return { status: res.status, response: await res.text() };
+      return await res.text();
     }
     return await res.json();
   } catch (err) {
@@ -49,7 +49,77 @@ const fetchTopics = async (token) => {
       headers: { 'Content-Type': 'application/json', token: token || '' },
     });
     if (res.status !== 200) {
-      return { status: res.status, response: await res.text() };
+      return await res.text();
+    }
+    return await res.json();
+  } catch (err) {
+    return 'fetch error';
+  }
+};
+
+const newTopic = async (token, name, description, read, write) => {
+  try {
+    const res = await fetch(`${config.apiUrl}/topic`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', token: token || '' },
+      body: JSON.stringify({
+        name,
+        description,
+        read,
+        write,
+      }),
+    });
+    if (res.status !== 200) {
+      return await res.text();
+    }
+    return await res.json();
+  } catch (err) {
+    return 'fetch error';
+  }
+};
+
+const fetchThreads = async (token, topic) => {
+  try {
+    const res = await fetch(`${config.apiUrl}/threads`, {
+      method: 'GET',
+      headers: { 'Content-Type': 'application/json', token: token || '', topic },
+    });
+    if (res.status !== 200) {
+      return await res.text();
+    }
+    return await res.json();
+  } catch (err) {
+    return 'fetch error';
+  }
+};
+
+const fetchMessages = async (token, thread) => {
+  try {
+    const res = await fetch(`${config.apiUrl}/messages`, {
+      method: 'GET',
+      headers: { 'Content-Type': 'application/json', token: token || '', thread },
+    });
+    if (res.status !== 200) {
+      return await res.text();
+    }
+    return await res.json();
+  } catch (err) {
+    return 'fetch error';
+  }
+};
+
+const newMessage = async (token, thread, content) => {
+  try {
+    const res = await fetch(`${config.apiUrl}/message`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', token: token || '' },
+      body: JSON.stringify({
+        thread,
+        content,
+      }),
+    });
+    if (res.status !== 200) {
+      return await res.text();
     }
     return await res.json();
   } catch (err) {
@@ -61,4 +131,8 @@ export default {
   login,
   register,
   fetchTopics,
+  newTopic,
+  fetchThreads,
+  fetchMessages,
+  newMessage,
 };
