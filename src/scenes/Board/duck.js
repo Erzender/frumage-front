@@ -1,6 +1,6 @@
 import { handleActions, createActions } from 'redux-actions';
 
-import serializer from '../../utils/serializer';
+import { serialize, addToObj } from '../../utils/serializer';
 import service from '../../service';
 
 export const {
@@ -15,6 +15,10 @@ export const {
   messagesRequest,
   messagesFailure,
   messagesSuccess,
+  sendRequest,
+  sendFailure,
+  sendSuccess,
+  messageType,
 } = createActions({
   TOPICS_REQUEST: () => ({}),
   TOPICS_FAILURE: () => ({}),
@@ -27,6 +31,10 @@ export const {
   MESSAGES_REQUEST: () => ({}),
   MESSAGES_FAILURE: () => ({}),
   MESSAGES_SUCCESS: messages => ({ messages }),
+  SEND_REQUEST: () => ({}),
+  SEND_FAILURE: () => ({}),
+  SEND_SUCCESS: message => ({ message }),
+  MESSAGE_TYPE: value => ({ value }),
 });
 
 export const getTopics = token => async (dispatch) => {
@@ -73,27 +81,52 @@ export const getMessages = (token, id) => async (dispatch) => {
   }
 };
 
+export const sendMessage = (token, id, message) => async (dispatch) => {
+  if (message === '' || id === null) {
+    return;
+  }
+  dispatch(selectThread(id));
+  dispatch(sendRequest());
+  try {
+    const ret = await service.newMessage(token, id, message);
+    if (ret.message) {
+      dispatch(sendSuccess(ret.message));
+    } else {
+      dispatch(sendFailure(ret));
+    }
+  } catch (err) {
+    dispatch(sendFailure(err));
+  }
+};
+
 const initialBoardState = {
   topics: {},
   selectedTopic: null,
   threads: {},
   selectedThread: null,
   messages: {},
+  messageInput: '',
 };
 
 export const board = handleActions(
   {
-    [topicsSuccess]: (state, { payload: { topics } }) => ({ ...state, topics: serializer(topics) }),
+    [topicsSuccess]: (state, { payload: { topics } }) => ({ ...state, topics: serialize(topics) }),
     [threadsSuccess]: (state, { payload: { threads } }) => ({
       ...state,
-      threads: serializer(threads),
+      threads: serialize(threads),
     }),
     [messagesSuccess]: (state, { payload: { messages } }) => ({
       ...state,
-      messages: serializer(messages),
+      messages: serialize(messages),
     }),
     [selectTopic]: (state, { payload: { id } }) => ({ ...state, selectedTopic: id.toString() }),
     [selectThread]: (state, { payload: { id } }) => ({ ...state, selectedThread: id.toString() }),
+    [messageType]: (state, { payload: { value } }) => ({ ...state, messageInput: value }),
+    [sendRequest]: state => ({ ...state, messageInput: '' }),
+    [sendSuccess]: (state, { payload: { message } }) => ({
+      ...state,
+      messages: addToObj(state.messages, message),
+    }),
   },
   initialBoardState,
 );

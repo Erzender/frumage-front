@@ -59,15 +59,15 @@ const fetchTopics = async (token) => {
 
 const newTopic = async (token, name, description, read, write) => {
   try {
-    const res = await fetch(`${config.apiUrl}/messages`, {
-      method: 'GET',
+    const res = await fetch(`${config.apiUrl}/topic`, {
+      method: 'POST',
       headers: { 'Content-Type': 'application/json', token: token || '' },
-      body: {
+      body: JSON.stringify({
         name,
         description,
         read,
         write,
-      },
+      }),
     });
     if (res.status !== 200) {
       return await res.text();
@@ -108,6 +108,25 @@ const fetchMessages = async (token, thread) => {
   }
 };
 
+const newMessage = async (token, thread, content) => {
+  try {
+    const res = await fetch(`${config.apiUrl}/message`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', token: token || '' },
+      body: JSON.stringify({
+        thread,
+        content,
+      }),
+    });
+    if (res.status !== 200) {
+      return await res.text();
+    }
+    return await res.json();
+  } catch (err) {
+    return 'fetch error';
+  }
+};
+
 export default {
   login,
   register,
@@ -115,4 +134,5 @@ export default {
   newTopic,
   fetchThreads,
   fetchMessages,
+  newMessage,
 };
