@@ -65,7 +65,7 @@ export const createFromModal = (type, modal, token) => async (dispatch) => {
   } catch (err) {
     dispatch(createTopicFailure(err));
   }
-}
+};
 
 export const getTopics = token => async (dispatch) => {
   dispatch(topicsRequest());
@@ -147,7 +147,7 @@ export const board = handleActions(
     [closeModal]: state => ({ ...state, modal: { isOpen: false } }),
     [modalTitleChange]: (state, { payload: { value } }) => ({ ...state, modal: addToNested(state.modal, 'title', value) }),
     [modalDescChange]: (state, { payload: { value } }) => ({ ...state, modal: addToNested(state.modal, 'desc', value) }),
-    [createTopic]: (state, { payload: { type, modal }}) => ({ ...state, modal: addToNested(state.modal, 'onCreate', type) }),
+    [createTopic]: (state, { payload: { type, modal }}) => ({ ...state, modal: addToNested(state.modal, 'onCreate', true) }),
     [topicsSuccess]: (state, { payload: { topics } }) => ({ ...state, topics: serialize(topics) }),
     [threadsSuccess]: (state, { payload: { threads } }) => ({
       ...state,

@@ -68,7 +68,7 @@ const mapDispatchToProps = dispatch => ({
   onTitleChange: e => dispatch(modalTitleChange(e.target.value)),
   onDescChange: e => dispatch(modalDescChange(e.target.value)),
   closeModalClick: () => dispatch(closeModal()),
-  createFromModal: () => dispatch(createTopic()),
+  createFromModal: (type, modal) => dispatch(createTopic(type, modal)),
 });
 
 const mapStateToProps = state => ({
