@@ -56,7 +56,7 @@ export const {
 export const createFromModal = (type, modal, token) => async (dispatch) => {
   dispatch(createTopicRequest());
   try {
-    const ret = await service.newTopic(token, modal.title, modal.desc, '', '');
+    const ret = await service.newTopic(token, modal.title, modal.desc, 'Anonymous', 'Anonymous');
     if (ret.success) {
       // ongoing
       dispatch(createTopicSuccess(ret.topics));
