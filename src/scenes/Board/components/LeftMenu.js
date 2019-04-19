@@ -9,7 +9,7 @@ import TopicElem from './TopicElem';
 import ThreadElem from './ThreadElem';
 import CreateModal from './CreateModal';
 import {
-  openModal, closeModal, getThreads, getMessages,
+  openModal, getThreads, getMessages,
 } from '../duck';
 import List from '../../componentsReuse/List';
 
@@ -35,8 +35,7 @@ const styles = {
 };
 
 const LeftMenu = ({
-  t, token, style, topics, clickTopic, threads, clickThread,
-  openModalClick, closeModalClick, isModalOpen,
+  t, token, style, topics, clickTopic, threads, clickThread, openModalClick,
 }) => {
   const clickTop = id => clickTopic(token, id);
   const clickThr = id => clickThread(token, id);
@@ -53,7 +52,7 @@ const LeftMenu = ({
             }}
           />
         </h4>
-        <CreateModal type="thread" isModalOpen={isModalOpen} onClose={closeModalClick} t={t} />
+        <CreateModal type="topic" />
         <List Elem={TopicElem} nodes={topics} click={clickTop} />
       </div>
       <div style={styles.box}>
@@ -82,31 +81,18 @@ LeftMenu.propTypes = {
     PropTypes.objectOf(PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool])),
   ).isRequired,
   style: PropTypes.objectOf(PropTypes.oneOfType([PropTypes.string, PropTypes.number])),
-  modal: PropTypes.shape({
-    // isModalOpen: PropTypes.bool,
-    title: PropTypes.string,
-    description: PropTypes.string,
-  }),
-  isModalOpen: PropTypes.bool,
   openModalClick: PropTypes.func.isRequired,
-  closeModalClick: PropTypes.func.isRequired,
   clickTopic: PropTypes.func.isRequired,
   clickThread: PropTypes.func.isRequired,
 };
 
 LeftMenu.defaultProps = {
   style: {},
-  isModalOpen: false,
-  modal: {
-    title: '',
-    description: '',
-  },
   token: null,
 };
 
 const mapDispatchToProps = dispatch => ({
   openModalClick: () => dispatch(openModal()),
-  closeModalClick: () => dispatch(closeModal()),
   clickTopic: (token, id) => dispatch(getThreads(token, id)),
   clickThread: (token, id) => dispatch(getMessages(token, id)),
 });
@@ -126,7 +112,6 @@ const mapStateToProps = state => ({
     recent: false,
   })),
   modal: state.board.modal,
-  isModalOpen: state.board.isModalOpen,
 });
 
 export default compose(

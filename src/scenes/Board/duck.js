@@ -1,6 +1,6 @@
 import { handleActions, createActions } from 'redux-actions';
 
-import { serialize, addToObj } from '../../utils/serializer';
+import { serialize, addToObj, addToNested } from '../../utils/serializer';
 import service from '../../service';
 
 export const {
@@ -9,6 +9,12 @@ export const {
   topicsSuccess,
   openModal,
   closeModal,
+  modalTitleChange,
+  modalDescChange,
+  createTopic,
+  createTopicRequest,
+  createTopicFailure,
+  createTopicSuccess,
   selectTopic,
   threadsRequest,
   threadsFailure,
@@ -27,6 +33,12 @@ export const {
   TOPICS_SUCCESS: topics => ({ topics }),
   OPEN_MODAL: () => ({}),
   CLOSE_MODAL: () => ({}),
+  MODAL_TITLE_CHANGE: value => ({ value }),
+  MODAL_DESC_CHANGE: value => ({ value }),
+  CREATE_TOPIC: (type, modal) => ({ type, modal }),
+  CREATE_TOPIC_REQUEST: () => ({}),
+  CREATE_TOPIC_FAILURE: err => ({ err }),
+  CREATE_TOPIC_SUCCESS: resp => ({ resp }),
   SELECT_TOPIC: id => ({ id }),
   THREADS_REQUEST: () => ({}),
   THREADS_FAILURE: () => ({}),
@@ -40,6 +52,20 @@ export const {
   SEND_SUCCESS: message => ({ message }),
   MESSAGE_TYPE: value => ({ value }),
 });
+
+export const createFromModal = (type, modal, token) => async (dispatch) => {
+  dispatch(createTopicRequest());
+  try {
+    const ret = await service.newTopic(token, modal.title, modal.desc, '', '');
+    if (ret.success) { // ongoing
+      dispatch(createTopicSuccess(ret.topics));
+    } else {
+      dispatch(createTopicFailure(ret));
+    }
+  } catch (err) {
+    dispatch(createTopicFailure(err));
+  }
+}
 
 export const getTopics = token => async (dispatch) => {
   dispatch(topicsRequest());
@@ -104,6 +130,9 @@ export const sendMessage = (token, id, message) => async (dispatch) => {
 };
 
 const initialBoardState = {
+  modal: {},
+  title: '',
+  desc: '',
   topics: {},
   selectedTopic: null,
   threads: {},
@@ -114,10 +143,11 @@ const initialBoardState = {
 
 export const board = handleActions(
   {
-    // [topicsSuccess]: (state, { payload: { topics } }) => ({ ...state, topics }),
-    [openModal]: state => ({ ...state, isModalOpen: true }),
-    [closeModal]: state => ({ ...state, isModalOpen: false }),
-    // [closeModal]: state => ({ ...state, isModalOpen: false }),
+    [openModal]: state => ({ ...state, modal: addToNested(state.modal, 'isOpen', true) }),
+    [closeModal]: state => ({ ...state, modal: { isOpen: false } }),
+    [modalTitleChange]: (state, { payload: { value } }) => ({ ...state, modal: addToNested(state.modal, 'title', value) }),
+    [modalDescChange]: (state, { payload: { value } }) => ({ ...state, modal: addToNested(state.modal, 'desc', value) }),
+    [createTopic]: (state, { payload: { type, modal }}) => ({ ...state, modal: addToNested(state.modal, 'onCreate', type) }),
     [topicsSuccess]: (state, { payload: { topics } }) => ({ ...state, topics: serialize(topics) }),
     [threadsSuccess]: (state, { payload: { threads } }) => ({
       ...state,

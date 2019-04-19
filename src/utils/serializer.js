@@ -11,3 +11,9 @@ export const addToObj = (obj, elem) => {
   copy[elem.id] = elem;
   return copy;
 };
+
+export const addToNested = (obj, id, elem) => {
+  const copy = { ...obj };
+  copy[id] = elem;
+  return copy;
+};
