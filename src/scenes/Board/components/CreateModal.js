@@ -15,17 +15,19 @@ import {
   // FormGroup,
 } from 'reactstrap';
 import {
-  closeModal, modalTitleChange, modalDescChange, createTopic,
+  closeModal, modalTitleChange, modalDescChange, createFromModal,
+  // createTopic
 } from '../duck';
 
 const CreateModal = (props) => {
   const {
     t, type, onTitleChange, onDescChange, closeModalClick,
-    modal, modal: { isOpen }, createFromModal,
+    modal, modal: { isOpen }, onCreateFromModal, token,
+    // createFromModal,
   } = props;
   // console.log(modal);
   // console.log(isModalOpen);
-  const modalToService = () => createFromModal(type, modal);
+  const modalToService = () => onCreateFromModal(type, modal, token);
   return (
     <div>
       <Modal isOpen={isOpen} toggle={closeModalClick}>
@@ -56,7 +58,15 @@ CreateModal.propTypes = {
   type: PropTypes.string,
   onTitleChange: PropTypes.func.isRequired,
   onDescChange: PropTypes.func.isRequired,
-  createFromModal: PropTypes.func.isRequired,
+  onCreateFromModal: PropTypes.func.isRequired,
+  token: PropTypes.string.isRequired,
+  // profile: PropTypes.shape({
+  //   id: PropTypes.bool.isRequired,
+  //   name: PropTypes.string.isRequired,
+  //   picture: PropTypes.string.isRequired,
+  //   rank: PropTypes.string.isRequired,
+  // }).isRequired,
+  // createFromModal: PropTypes.func.isRequired,
 };
 
 CreateModal.defaultProps = {
@@ -68,11 +78,13 @@ const mapDispatchToProps = dispatch => ({
   onTitleChange: e => dispatch(modalTitleChange(e.target.value)),
   onDescChange: e => dispatch(modalDescChange(e.target.value)),
   closeModalClick: () => dispatch(closeModal()),
-  createFromModal: () => dispatch(createTopic()),
+  onCreateFromModal: (type, modal, tok, user) => dispatch(createFromModal(type, modal, tok, user)),
 });
 
 const mapStateToProps = state => ({
   modal: state.board.modal,
+  // profile: state.account.profile,
+  token: state.persistedReducer.token,
 });
 
 export default compose(

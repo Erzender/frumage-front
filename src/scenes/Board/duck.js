@@ -15,6 +15,9 @@ export const {
   createTopicRequest,
   createTopicFailure,
   createTopicSuccess,
+  createThreadRequest,
+  createThreadFailure,
+  createThreadSuccess,
   selectTopic,
   threadsRequest,
   threadsFailure,
@@ -39,6 +42,9 @@ export const {
   CREATE_TOPIC_REQUEST: () => ({}),
   CREATE_TOPIC_FAILURE: err => ({ err }),
   CREATE_TOPIC_SUCCESS: resp => ({ resp }),
+  CREATE_THREAD_REQUEST: () => ({}),
+  CREATE_THREAD_FAILURE: err => ({ err }),
+  CREATE_THREAD_SUCCESS: resp => ({ resp }),
   SELECT_TOPIC: id => ({ id }),
   THREADS_REQUEST: () => ({}),
   THREADS_FAILURE: () => ({}),
@@ -52,21 +58,6 @@ export const {
   SEND_SUCCESS: message => ({ message }),
   MESSAGE_TYPE: value => ({ value }),
 });
-
-export const createFromModal = (type, modal, token) => async (dispatch) => {
-  dispatch(createTopicRequest());
-  try {
-    const ret = await service.newTopic(token, modal.title, modal.desc, '', '');
-    if (ret.success) {
-      // ongoing
-      dispatch(createTopicSuccess(ret.topics));
-    } else {
-      dispatch(createTopicFailure(ret));
-    }
-  } catch (err) {
-    dispatch(createTopicFailure(err));
-  }
-};
 
 export const getTopics = token => async (dispatch) => {
   dispatch(topicsRequest());
@@ -127,6 +118,39 @@ export const sendMessage = (token, id, message) => async (dispatch) => {
     }
   } catch (err) {
     dispatch(sendFailure(err));
+  }
+};
+
+export const createFromModal = (type, modal, token) => async (dispatch) => {
+  const actions = [
+    {
+      type: 'topic',
+      request: createTopicRequest,
+      failure: createTopicFailure,
+      success: createTopicSuccess,
+      refresh: getTopics,
+    },
+    {
+      type: 'thread',
+      request: createThreadRequest,
+      failure: createThreadFailure,
+      success: createThreadSuccess,
+      refresh: getThreads,
+    },
+  ];
+  const action = actions.find(item => item.type === type);
+  dispatch(action.request());
+  try {
+    const ret = await service.newTopic(token, modal.title, modal.desc, 'Anonymous', 'Anonymous');
+    if (ret.success) {
+      dispatch(action.success(ret));
+      dispatch(closeModal());
+      dispatch(getTopics(token));
+    } else {
+      dispatch(action.failure(ret));
+    }
+  } catch (err) {
+    dispatch(action.failure(err));
   }
 };
 

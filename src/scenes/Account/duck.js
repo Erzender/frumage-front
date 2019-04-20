@@ -13,7 +13,7 @@ export const {
   toRegister,
 } = createActions({
   LOGIN_REQUEST: () => ({}),
-  LOGIN_SUCCESS: token => ({ token }),
+  LOGIN_SUCCESS: (token, profile) => ({ token, profile }),
   LOGIN_FAILURE: err => ({ err }),
   REGISTER_REQUEST: () => ({}),
   REGISTER_SUCCESS: ret => ({ ret }),
@@ -28,7 +28,7 @@ export const login = (name, password) => async (dispatch) => {
   try {
     const ret = await service.login(name, password);
     if (ret.token) {
-      dispatch(loginSuccess(ret.token));
+      dispatch(loginSuccess(ret.token, ret.profile));
     } else {
       dispatch(loginFailure(ret));
     }
@@ -73,7 +73,9 @@ export const account = handleActions(
       password: input === 'password' ? value : state.password,
     }),
     [loginRequest]: state => ({ ...state, isLoading: true }),
-    [loginSuccess]: state => ({ ...state, isLoading: false, isLogged: true }),
+    [loginSuccess]: (state, { payload: { profile } }) => ({
+      ...state, isLoading: false, isLogged: true, profile,
+    }),
     [loginFailure]: (state, { payload: { err } }) => ({
       ...state,
       isLoading: false,
