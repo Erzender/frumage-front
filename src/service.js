@@ -2,7 +2,7 @@ import config from './config.json';
 
 const login = async (name, password) => {
   try {
-    const res = await fetch(`${config.apiUrl}/login`, {
+    const res = await fetch(`${config.apiUrll}/login`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -23,7 +23,7 @@ const login = async (name, password) => {
 
 const register = async (name, password) => {
   try {
-    const res = await fetch(`${config.apiUrl}/account`, {
+    const res = await fetch(`${config.apiUrll}/account`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -44,7 +44,7 @@ const register = async (name, password) => {
 
 const fetchTopics = async (token) => {
   try {
-    const res = await fetch(`${config.apiUrl}/topics`, {
+    const res = await fetch(`${config.apiUrll}/topics`, {
       method: 'GET',
       headers: { 'Content-Type': 'application/json', token: token || '' },
     });
@@ -59,7 +59,7 @@ const fetchTopics = async (token) => {
 
 const newTopic = async (token, name, description, read, write) => {
   try {
-    const res = await fetch(`${config.apiUrl}/topic`, {
+    const res = await fetch(`${config.apiUrll}/topic`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json', token: token || '' },
       body: JSON.stringify({
@@ -80,7 +80,7 @@ const newTopic = async (token, name, description, read, write) => {
 
 const fetchThreads = async (token, topic) => {
   try {
-    const res = await fetch(`${config.apiUrl}/threads`, {
+    const res = await fetch(`${config.apiUrll}/threads`, {
       method: 'GET',
       headers: { 'Content-Type': 'application/json', token: token || '', topic },
     });
@@ -95,7 +95,7 @@ const fetchThreads = async (token, topic) => {
 
 const fetchMessages = async (token, thread) => {
   try {
-    const res = await fetch(`${config.apiUrl}/messages`, {
+    const res = await fetch(`${config.apiUrll}/messages`, {
       method: 'GET',
       headers: { 'Content-Type': 'application/json', token: token || '', thread },
     });
@@ -110,7 +110,7 @@ const fetchMessages = async (token, thread) => {
 
 const newMessage = async (token, thread, content) => {
   try {
-    const res = await fetch(`${config.apiUrl}/message`, {
+    const res = await fetch(`${config.apiUrll}/message`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json', token: token || '' },
       body: JSON.stringify({

@@ -28,7 +28,6 @@ export const login = (name, password) => async (dispatch) => {
   try {
     const ret = await service.login(name, password);
     if (ret.token) {
-      // console.log(ret);
       dispatch(loginSuccess(ret.token, ret.profile));
     } else {
       dispatch(loginFailure(ret));

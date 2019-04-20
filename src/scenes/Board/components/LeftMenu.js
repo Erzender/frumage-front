@@ -112,6 +112,7 @@ const mapStateToProps = state => ({
     recent: false,
   })),
   modal: state.board.modal,
+  profile: state.account.profile,
 });
 
 export default compose(
