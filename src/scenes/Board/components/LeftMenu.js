@@ -8,9 +8,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import TopicElem from './TopicElem';
 import ThreadElem from './ThreadElem';
 import CreateModal from './CreateModal';
-import {
-  openModal, getThreads, getMessages,
-} from '../duck';
+import { openModal, getThreads, getMessages } from '../duck';
 import List from '../../componentsReuse/List';
 
 const styles = {
@@ -35,10 +33,18 @@ const styles = {
 };
 
 const LeftMenu = ({
-  t, token, style, topics, clickTopic, threads, clickThread, openModalClick,
+  t,
+  token,
+  style,
+  topics,
+  clickTopic,
+  threads,
+  thread,
+  clickThread,
+  openModalClick,
 }) => {
   const clickTop = id => clickTopic(token, id);
-  const clickThr = id => clickThread(token, id);
+  const clickThr = id => clickThread(token, id, thread);
   return (
     <div style={{ ...style, ...styles.container }}>
       <div style={styles.box}>
@@ -88,17 +94,19 @@ LeftMenu.propTypes = {
   openModalClick: PropTypes.func.isRequired,
   clickTopic: PropTypes.func.isRequired,
   clickThread: PropTypes.func.isRequired,
+  thread: PropTypes.string,
 };
 
 LeftMenu.defaultProps = {
   style: {},
   token: null,
+  thread: null,
 };
 
 const mapDispatchToProps = dispatch => ({
   openModalClick: type => dispatch(openModal(type)),
   clickTopic: (token, id) => dispatch(getThreads(token, id)),
-  clickThread: (token, id) => dispatch(getMessages(token, id)),
+  clickThread: (token, id, thread) => dispatch(getMessages(token, id, thread)),
 });
 
 const mapStateToProps = state => ({
@@ -117,6 +125,7 @@ const mapStateToProps = state => ({
   })),
   modal: state.board.modal,
   profile: state.account.profile,
+  thread: state.board.selectedThread,
 });
 
 export default compose(

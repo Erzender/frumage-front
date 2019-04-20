@@ -1,9 +1,12 @@
 import { handleActions, createActions } from 'redux-actions';
+import openSocket from 'socket.io-client';
 
 import {
   serialize, addToObj, addToNested, addManyToNested,
 } from '../../utils/serializer';
 import service from '../../service';
+
+const socket = openSocket('http://localhost:8080');
 
 export const {
   topicsRequest,
@@ -32,6 +35,7 @@ export const {
   sendFailure,
   sendSuccess,
   messageType,
+  receivedMessage,
 } = createActions({
   TOPICS_REQUEST: () => ({}),
   TOPICS_FAILURE: () => ({}),
@@ -59,6 +63,7 @@ export const {
   SEND_FAILURE: () => ({}),
   SEND_SUCCESS: message => ({ message }),
   MESSAGE_TYPE: value => ({ value }),
+  RECEIVED_MESSAGE: message => ({ message }),
 });
 
 export const getTopics = token => async (dispatch) => {
@@ -90,12 +95,17 @@ export const getThreads = (token, id) => async (dispatch) => {
   }
 };
 
-export const getMessages = (token, id) => async (dispatch) => {
+export const getMessages = (token, id, prevThread) => async (dispatch) => {
   dispatch(selectThread(id));
   dispatch(messagesRequest());
   try {
     const ret = await service.fetchMessages(token, id);
     if (ret.messages) {
+      if (prevThread) {
+        socket.emit('leave', { prevThread });
+      }
+      socket.emit('join', { token, id });
+      socket.on('message', message => dispatch(receivedMessage(message)));
       dispatch(messagesSuccess(ret.messages));
     } else {
       dispatch(messagesFailure(ret));
@@ -174,7 +184,10 @@ export const board = handleActions(
   {
     [openModal]: (state, { payload: { type } }) => ({
       ...state,
-      modal: addManyToNested(state.modal, [{ id: 'isOpen', value: true }, { id: 'type', value: type }]),
+      modal: addManyToNested(state.modal, [
+        { id: 'isOpen', value: true },
+        { id: 'type', value: type },
+      ]),
     }),
     [closeModal]: state => ({ ...state, modal: { isOpen: false } }),
     [modalTitleChange]: (state, { payload: { value } }) => ({
@@ -198,10 +211,20 @@ export const board = handleActions(
     [selectThread]: (state, { payload: { id } }) => ({ ...state, selectedThread: id.toString() }),
     [messageType]: (state, { payload: { value } }) => ({ ...state, messageInput: value }),
     [sendRequest]: state => ({ ...state, messageInput: '' }),
-    [sendSuccess]: (state, { payload: { message } }) => ({
-      ...state,
-      messages: addToObj(state.messages, message),
-    }),
+    [sendSuccess]: (state, { payload: { message } }) => {
+      console.log(message);
+      return {
+        ...state,
+        messages: addToObj(state.messages, message),
+      };
+    },
+    [receivedMessage]: (state, { payload: { message } }) => {
+      console.log(message);
+      return {
+        ...state,
+        messages: addToObj(state.messages, message),
+      };
+    },
   },
   initialBoardState,
 );

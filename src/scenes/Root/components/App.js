@@ -1,5 +1,5 @@
 import React from 'react';
-import { Provider } from 'react-redux';
+import { Provider, connect } from 'react-redux';
 import {
   createStore, applyMiddleware, combineReducers, compose,
 } from 'redux';
@@ -10,7 +10,6 @@ import { PersistGate } from 'redux-persist/integration/react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { withNamespaces } from 'react-i18next';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
-import io from 'socket.io-client';
 
 import LoginForm from '../../Account/components/LoginForm';
 import RegisterForm from '../../Account/components/RegisterForm';
@@ -48,13 +47,7 @@ const store = createStore(rootReducer, composed);
 
 const persistor = persistStore(store);
 
-const socket = io.connect('http://localhost:8080');
-socket.on('news', (data) => {
-  console.log(data);
-  socket.emit('my other event', { my: 'data' });
-});
-
-const App = withNamespaces()(() => (
+const AppCpt = () => (
   <div
     style={{
       display: 'flex',
@@ -75,7 +68,19 @@ const App = withNamespaces()(() => (
       </div>
     </Router>
   </div>
-));
+);
+
+const mapDispatchToProps = () => ({});
+
+const mapStateToProps = () => ({});
+
+const App = compose(
+  connect(
+    mapStateToProps,
+    mapDispatchToProps,
+  ),
+  withNamespaces(),
+)(AppCpt);
 
 export default () => (
   <Provider store={store}>
