@@ -6,7 +6,7 @@ import {
 } from '../../utils/serializer';
 import service from '../../service';
 
-const socket = openSocket('http://localhost:8080');
+const socket = openSocket('https://frumage.herokuapp.com');
 
 export const {
   topicsRequest,
