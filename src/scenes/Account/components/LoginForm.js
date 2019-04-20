@@ -45,7 +45,7 @@ const LoginForm = ({
           <Label>{t('login.Username')}</Label>
           <Input value={name} onChange={changeName} />
           <Label for="examplePassword">{t('login.Password')}</Label>
-          <Input type="password" value={password} onChange={changePassword} />
+          <Input type="password" value={password} onChange={changePassword} onKeyPress={({ key }) => { if (key === 'Enter') loginButtonPress(); }} />
         </FormGroup>
         <Button color="primary" className="col-12" onClick={loginButtonPress}>
           {t('login.Login')}
