@@ -7,7 +7,6 @@ import { withNamespaces } from 'react-i18next';
 import { getTopics } from '../duck';
 import Header from './Header';
 import LeftMenu from './LeftMenu';
-import RightMenu from './RightMenu';
 import Messenger from './Messenger';
 
 const styles = {
@@ -43,7 +42,6 @@ class Board extends React.Component {
         <div style={styles.main}>
           <LeftMenu style={styles.left} />
           <Messenger style={styles.content} />
-          <RightMenu style={styles.right} />
         </div>
       </div>
     );
