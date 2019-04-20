@@ -11,6 +11,8 @@ const styles = {
     overflow: 'hidden',
     overflowY: 'auto',
     display: 'inline-block',
+    transform: 'rotate(180deg)',
+    direction: 'rtl',
   },
   messageContainer: {
     display: 'flex',
@@ -21,6 +23,8 @@ const styles = {
     borderWidth: 0,
     borderBottomWidth: 1,
     minHeight: '200px',
+    transform: 'rotate(180deg)',
+    direction: 'ltr',
   },
   meta: {
     minWidth: '120px',
@@ -94,7 +98,7 @@ const Messages = ({ messages }) => (
           </pre>
         </div>
       </div>
-    ))}
+    )).reverse()}
   </div>
 );
 
