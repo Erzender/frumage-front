@@ -80,7 +80,6 @@ const newTopic = async (token, name, description, read = 'Anonymous', write = 'A
 
 const newThread = async (token, name, description, topic) => {
   try {
-    console.log(topic);
     const res = await fetch(`${config.apiUrll}/thread`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json', token: token || '' },

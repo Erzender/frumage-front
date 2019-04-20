@@ -15,7 +15,7 @@ const AlertForm = ({ message }) => (
     style={styles.alert}
     isOpen={message.visible}
   >
-    {message.success ? message.message : message.response}
+    {message.response}
   </Alert>
 );
 
@@ -29,7 +29,6 @@ AlertForm.propTypes = {
 
 AlertForm.defaultProps = {
   message: {
-    status: 0,
     response: '',
     visible: false,
   },

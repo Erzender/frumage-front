@@ -35,39 +35,25 @@ const styles = {
 };
 
 const LeftMenu = ({
-  t, token, style, topics, clickTopic, threads, clickThread, openModalClick,
+  t, token, style, topics, clickTopic, threads, clickThread, openModalClick, profile,
 }) => {
   const clickTop = id => clickTopic(token, id);
   const clickThr = id => clickThread(token, id);
+  const isAdmin = profile.rank === 'Admin';
   return (
     <div style={{ ...style, ...styles.container }}>
       <div style={styles.box}>
         <h4 className="noselect" style={styles.title}>
           {t('board.TOPICS')}
-          <FontAwesomeIcon
-            // onClick={openModalClick}
-            onClick={() => openModalClick('topic')}
-            icon="plus-circle"
-            style={{
-              ...styles.plus,
-            }}
-          />
+          {isAdmin && <FontAwesomeIcon onClick={() => openModalClick('topic')} icon="plus-circle" style={{ ...styles.plus }} />}
         </h4>
-        {/* <CreateModal type="topic" /> */}
         <List Elem={TopicElem} nodes={topics} click={clickTop} />
       </div>
       <div style={styles.box}>
         <h4 style={styles.title}>
           {t('board.THREADS')}
-          <FontAwesomeIcon
-            onClick={() => openModalClick('thread')}
-            icon="plus-circle"
-            style={{
-              ...styles.plus,
-            }}
-          />
+          {isAdmin && <FontAwesomeIcon onClick={() => openModalClick('thread')} icon="plus-circle" style={{ ...styles.plus }} />}
         </h4>
-        {/* <CreateModal type="thread" /> */}
         <List Elem={ThreadElem} nodes={threads} click={clickThr} />
       </div>
       <CreateModal />
@@ -88,11 +74,15 @@ LeftMenu.propTypes = {
   openModalClick: PropTypes.func.isRequired,
   clickTopic: PropTypes.func.isRequired,
   clickThread: PropTypes.func.isRequired,
+  profile: PropTypes.shape({
+    rank: PropTypes.string,
+  }),
 };
 
 LeftMenu.defaultProps = {
   style: {},
   token: null,
+  profile: {},
 };
 
 const mapDispatchToProps = dispatch => ({
