@@ -104,7 +104,7 @@ export const getMessages = (token, id, prevThread) => async (dispatch) => {
       if (prevThread) {
         socket.emit('leave', { thread: prevThread });
       }
-      socket.emit('join', { token, id });
+      socket.emit('join', { token, thread: id });
       socket.on('message', message => dispatch(receivedMessage(message)));
       dispatch(messagesSuccess(ret.messages));
     } else {
