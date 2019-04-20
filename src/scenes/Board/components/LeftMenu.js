@@ -45,28 +45,32 @@ const LeftMenu = ({
         <h4 className="noselect" style={styles.title}>
           {t('board.TOPICS')}
           <FontAwesomeIcon
-            onClick={openModalClick}
+            // onClick={openModalClick}
+            onClick={() => openModalClick('topic')}
             icon="plus-circle"
             style={{
               ...styles.plus,
             }}
           />
         </h4>
-        <CreateModal type="topic" />
+        {/* <CreateModal type="topic" /> */}
         <List Elem={TopicElem} nodes={topics} click={clickTop} />
       </div>
       <div style={styles.box}>
         <h4 style={styles.title}>
           {t('board.THREADS')}
           <FontAwesomeIcon
+            onClick={() => openModalClick('thread')}
             icon="plus-circle"
             style={{
               ...styles.plus,
             }}
           />
         </h4>
+        {/* <CreateModal type="thread" /> */}
         <List Elem={ThreadElem} nodes={threads} click={clickThr} />
       </div>
+      <CreateModal />
     </div>
   );
 };
@@ -92,7 +96,7 @@ LeftMenu.defaultProps = {
 };
 
 const mapDispatchToProps = dispatch => ({
-  openModalClick: () => dispatch(openModal()),
+  openModalClick: type => dispatch(openModal(type)),
   clickTopic: (token, id) => dispatch(getThreads(token, id)),
   clickThread: (token, id) => dispatch(getMessages(token, id)),
 });

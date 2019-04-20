@@ -17,3 +17,11 @@ export const addToNested = (obj, id, elem) => {
   copy[id] = elem;
   return copy;
 };
+
+export const addManyToNested = (obj, arr) => {
+  const copy = { ...obj };
+  arr.forEach((item) => {
+    copy[item.id] = item.value;
+  });
+  return copy;
+};
