@@ -90,7 +90,7 @@ export const account = handleActions(
     [registerSuccess]: (state, { payload: { ret } }) => ({
       ...state,
       isLoading: false,
-      message: { response: ret.message, visible: true },
+      message: { success: ret.success, response: ret.message, visible: true },
       registered: true,
     }),
     [toRegister]: state => ({ ...state, registered: false }),

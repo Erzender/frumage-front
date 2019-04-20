@@ -44,7 +44,7 @@ const RegisterForm = ({
           <Label>{t('register.Username')}</Label>
           <Input value={name} onChange={changeName} />
           <Label>{t('register.Password')}</Label>
-          <Input type="password" value={password} onChange={changePassword} />
+          <Input type="password" value={password} onChange={changePassword} onKeyPress={({ key }) => { if (key === 'Enter') registerButtonPress(); }} />
           <br />
           <Button color="primary" className="col-12" onClick={registerButtonPress}>
             {t('register.Subscribe')}
