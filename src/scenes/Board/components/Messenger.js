@@ -55,7 +55,12 @@ const Messenger = ({
             type="textarea"
             style={styles.input}
             rows="1"
-            onKeyPress={({ key }) => { if (key === 'Enter') sendM(); }}
+            onKeyPress={(e) => {
+              if (e.key === 'Enter') {
+                e.preventDefault();
+                sendM();
+              }
+            }}
           />
           <FontAwesomeIcon onClick={sendM} icon="paper-plane" style={styles.sendButton} />
         </div>
