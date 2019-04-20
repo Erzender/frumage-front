@@ -211,20 +211,14 @@ export const board = handleActions(
     [selectThread]: (state, { payload: { id } }) => ({ ...state, selectedThread: id.toString() }),
     [messageType]: (state, { payload: { value } }) => ({ ...state, messageInput: value }),
     [sendRequest]: state => ({ ...state, messageInput: '' }),
-    [sendSuccess]: (state, { payload: { message } }) => {
-      console.log(message);
-      return {
-        ...state,
-        messages: addToObj(state.messages, message),
-      };
-    },
-    [receivedMessage]: (state, { payload: { message } }) => {
-      console.log(message);
-      return {
-        ...state,
-        messages: addToObj(state.messages, message),
-      };
-    },
+    [sendSuccess]: (state, { payload: { message } }) => ({
+      ...state,
+      messages: addToObj(state.messages, message),
+    }),
+    [receivedMessage]: (state, { payload: { message } }) => ({
+      ...state,
+      messages: addToObj(state.messages, message),
+    }),
   },
   initialBoardState,
 );
