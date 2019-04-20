@@ -57,7 +57,7 @@ const fetchTopics = async (token) => {
   }
 };
 
-const newTopic = async (token, name, description, read, write) => {
+const newTopic = async (token, name, description, read = 'Anonymous', write = 'Anonymous') => {
   try {
     const res = await fetch(`${config.apiUrll}/topic`, {
       method: 'POST',
@@ -67,6 +67,27 @@ const newTopic = async (token, name, description, read, write) => {
         description,
         read,
         write,
+      }),
+    });
+    if (res.status !== 200) {
+      return await res.text();
+    }
+    return await res.json();
+  } catch (err) {
+    return 'fetch error';
+  }
+};
+
+const newThread = async (token, name, description, topic) => {
+  try {
+    console.log(topic);
+    const res = await fetch(`${config.apiUrll}/thread`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', token: token || '' },
+      body: JSON.stringify({
+        topic,
+        name,
+        description,
       }),
     });
     if (res.status !== 200) {
@@ -132,6 +153,7 @@ export default {
   register,
   fetchTopics,
   newTopic,
+  newThread,
   fetchThreads,
   fetchMessages,
   newMessage,

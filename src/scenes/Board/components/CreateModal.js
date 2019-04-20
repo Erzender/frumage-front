@@ -10,32 +10,25 @@ import {
   ModalBody,
   ModalFooter,
   Input,
-  // Label,
-  // Form,
-  // FormGroup,
 } from 'reactstrap';
 import {
   closeModal, modalTitleChange, modalDescChange, createFromModal,
-  // createTopic
 } from '../duck';
 
 const CreateModal = (props) => {
   const {
-    t, type, onTitleChange, onDescChange, closeModalClick,
-    modal, modal: { isOpen }, onCreateFromModal, token,
-    // createFromModal,
+    t, onTitleChange, onDescChange, closeModalClick,
+    modal, modal: { isOpen, type }, onCreateFromModal, token, topic,
   } = props;
-  // console.log(modal);
-  // console.log(isModalOpen);
-  const modalToService = () => onCreateFromModal(type, modal, token);
+  const modalToService = () => onCreateFromModal(type, modal, token, topic);
   return (
     <div>
       <Modal isOpen={isOpen} toggle={closeModalClick}>
-        <ModalHeader toggle={closeModalClick}>{t(`modal.${type}Header`)}</ModalHeader>
+        <ModalHeader toggle={closeModalClick}>{type && t(`modal.${type}Header`)}</ModalHeader>
         <ModalBody>
-          <Input type="value" placeholder={t(`modal.${type}Name`)} onChange={onTitleChange} />
+          <Input type="value" placeholder={type && t(`modal.${type}Name`)} onChange={onTitleChange} />
           {' '}
-          <Input type="textarea" placeholder={t(`modal.${type}Desc`)} rows={5} onChange={onDescChange} />
+          <Input type="textarea" placeholder={type && t(`modal.${type}Desc`)} rows={5} onChange={onDescChange} />
         </ModalBody>
         <ModalFooter>
           <Button color="primary" onClick={modalToService}>{t('modal.create')}</Button>
@@ -50,41 +43,35 @@ const CreateModal = (props) => {
 CreateModal.propTypes = {
   modal: PropTypes.shape({
     isOpen: PropTypes.bool,
+    type: PropTypes.string,
     title: PropTypes.string,
     desc: PropTypes.string,
   }),
   closeModalClick: PropTypes.func.isRequired,
   t: PropTypes.func.isRequired,
-  type: PropTypes.string,
   onTitleChange: PropTypes.func.isRequired,
   onDescChange: PropTypes.func.isRequired,
   onCreateFromModal: PropTypes.func.isRequired,
   token: PropTypes.string.isRequired,
-  // profile: PropTypes.shape({
-  //   id: PropTypes.bool.isRequired,
-  //   name: PropTypes.string.isRequired,
-  //   picture: PropTypes.string.isRequired,
-  //   rank: PropTypes.string.isRequired,
-  // }).isRequired,
-  // createFromModal: PropTypes.func.isRequired,
+  topic: PropTypes.string,
 };
 
 CreateModal.defaultProps = {
   modal: { isOpen: false },
-  type: 'topic',
+  topic: 1,
 };
 
 const mapDispatchToProps = dispatch => ({
   onTitleChange: e => dispatch(modalTitleChange(e.target.value)),
   onDescChange: e => dispatch(modalDescChange(e.target.value)),
   closeModalClick: () => dispatch(closeModal()),
-  onCreateFromModal: (type, modal, tok, user) => dispatch(createFromModal(type, modal, tok, user)),
+  onCreateFromModal: (type, m, token, topic) => dispatch(createFromModal(type, m, token, topic)),
 });
 
 const mapStateToProps = state => ({
   modal: state.board.modal,
-  // profile: state.account.profile,
   token: state.persistedReducer.token,
+  topic: state.board.selectedTopic,
 });
 
 export default compose(
