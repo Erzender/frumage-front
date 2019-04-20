@@ -10,6 +10,7 @@ import { PersistGate } from 'redux-persist/integration/react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { withNamespaces } from 'react-i18next';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
+import io from 'socket.io-client';
 
 import LoginForm from '../../Account/components/LoginForm';
 import RegisterForm from '../../Account/components/RegisterForm';
@@ -46,6 +47,12 @@ const store = createStore(rootReducer, composed);
 /* eslint-enable */
 
 const persistor = persistStore(store);
+
+const socket = io.connect('http://localhost:8080');
+socket.on('news', (data) => {
+  console.log(data);
+  socket.emit('my other event', { my: 'data' });
+});
 
 const App = withNamespaces()(() => (
   <div
